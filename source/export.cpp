@@ -18,6 +18,7 @@ void displayExportMenu(Streetpass::StreetpassManager& sm) {
     printf("\n\nExport Menu\n\n");
     printf("[A] Export a Box\n");
     printf("[B] Export all boxes\n\n");
+    printf("[X] Export all streetpasses\n\n");
     printf("Press START for Main Menu\n\n");
 }
 
@@ -65,6 +66,10 @@ void exportMenu(Streetpass::StreetpassManager& sm) {
             exportAllBoxes(sm);
             waitForInput();
             break;
+        } else if (down & KEY_X) {
+            exportAllStreetpasses(sm);
+            waitForInput();
+            break;
         }
     }
 }
@@ -78,4 +83,11 @@ void exportAllBoxes(Streetpass::StreetpassManager& sm) {
 
 void exportBox(Streetpass::StreetpassManager& sm, u8 slotNum) {
     sm.BackupBox(slotNum);
+}
+
+void exportAllStreetpasses(Streetpass::StreetpassManager& sm) {
+    for (u8 slotNum = 0; slotNum < sm.BoxList().MaxNumberOfSlots(); slotNum++) {
+        sm.ExportStreetpasses(slotNum);
+    }
+    printf("All streetpasses exported.\n");
 }

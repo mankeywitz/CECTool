@@ -362,8 +362,7 @@ Result StreetpassManager::ReloadBoxList() {
     return 0;
 }
 
-void StreetpassManager::BackupBox(u8 slotNum)
-{
+void StreetpassManager::BackupBox(u8 slotNum) {
     const std::string boxName = BoxList().BoxNames()[slotNum];
     std::shared_ptr<Streetpass::MBox> mbox = OpenBox(slotNum);
     if (mbox) {
@@ -418,8 +417,30 @@ void StreetpassManager::BackupBox(u8 slotNum)
     }
 }
 
-Result StreetpassManager::ImportBox(u32 boxId)
-{
+void StreetpassManager::ExportStreetpasses(u8 slotNum) {
+    const std::string boxName = BoxList().BoxNames()[slotNum];
+    std::shared_ptr<Streetpass::MBox> mbox = OpenBox(slotNum);
+    if (mbox) {
+        const std::string streetpassExportPath = "/3ds/CECTool/export/streetpasses/" + boxName + "/";
+        mkdir(streetpassExportPath.c_str(), 777);
+
+        for (auto message : mbox->Inbox().Messages()) {
+            std::string fileName = base64_encode(reinterpret_cast<const char*>(message.MessageId().data), sizeof(CecMessageId));
+            std::ofstream out(streetpassExportPath + fileName, std::ios::out | std::ios::binary | std::ios::trunc);
+            out.write(reinterpret_cast<const char*>(message.data().data()), message.MessageSize());
+            out.close();
+        }
+
+        for (auto message : mbox->Outbox().Messages()) {
+            std::string fileName = base64_encode(reinterpret_cast<const char*>(message.MessageId().data), sizeof(CecMessageId));
+            std::ofstream out(streetpassExportPath + fileName, std::ios::out | std::ios::binary | std::ios::trunc);
+            out.write(reinterpret_cast<const char*>(message.data().data()), message.MessageSize());
+            out.close();
+        }
+    }
+}
+
+Result StreetpassManager::ImportBox(u32 boxId) {
     // check if box already exists...
     std::vector<u32> currentBoxIds = BoxList().BoxIds();
 

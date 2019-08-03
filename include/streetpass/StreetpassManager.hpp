@@ -23,6 +23,7 @@ public:
     Result DeleteBox(u8 slotNum);
     Result DeleteAllBoxes();
     void BackupBox(u8 slotNum);
+    void ExportStreetpasses(u8 slotNum);
     Result ImportBox(u32 boxId);
 
     MBoxList& BoxList();

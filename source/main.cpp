@@ -23,7 +23,9 @@ void cecToolDirectoryCheck() {
     // What happens if there is no sd card...?
     mkdir("/3ds/CECTool", 777);
     mkdir("/3ds/CECTool/export", 777);
+    mkdir("/3ds/CECTool/export/streetpasses", 777);
     mkdir("/3ds/CECTool/import", 777);
+    mkdir("/3ds/CECTool/import/streetpasses", 777);
     mkdir("/3ds/CECTool/template", 777);
     mkdir("/3ds/CECTool/tests", 777);
 }

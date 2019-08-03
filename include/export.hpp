@@ -8,3 +8,5 @@ void exportMenu(Streetpass::StreetpassManager& sm);
 
 void exportAllBoxes(Streetpass::StreetpassManager& sm);
 void exportBox(Streetpass::StreetpassManager& sm, u8 slotNum);
+
+void exportAllStreetpasses(Streetpass::StreetpassManager& sm);
