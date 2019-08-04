@@ -17,7 +17,7 @@ void displayImportMenu(Streetpass::StreetpassManager& sm) {
     sm.ListBoxes();
     printf("\n\nImport Menu\n\n");
     printf("[A] Import Box\n");
-    printf("[B] Import Messages\n\n");
+    printf("[B] Import Messages\n");
     printf("[X] Import Streetpasses\n\n");
     printf("Press START for Main Menu\n\n");
 }
@@ -133,8 +133,15 @@ void importStreetpassMenu(Streetpass::StreetpassManager& sm, u8 slotNum, STDirec
                 if (inboxCount < inboxLimit) {
                     importStreetpasses(sm, *mbox, importPath, importDirectory.item(streetpassIndex));
                 }
-                printf("Importing streetpass complete.");
+                if (inboxCount < mbox->Inbox().Info().NumberOfMessages()) {
+                    printf("Importing streetpass complete.");
+                    inboxCount = mbox->Inbox().Info().NumberOfMessages();
+                } else {
+                    printf("Importing streetpass failed.");
+                }
+
                 waitForInput();
+                displayImportStreetpassSelection(sm, slotNum, inboxCount, inboxLimit, importDirectory.item(streetpassIndex));
                 //break;
             } else if (down & KEY_DOWN) {
                 if (streetpassIndex > 0) {
@@ -174,8 +181,8 @@ void importStreetpasses(Streetpass::StreetpassManager& sm, Streetpass::MBox& mbo
     in.read(reinterpret_cast<char*>(messageBuffer.data()), messageSize);
     in.close();
 
-    time_t unixTime = time(NULL);
-    struct tm* timeStruct = gmtime((const time_t *)&unixTime);
+    time_t currentTime = time(NULL);
+    struct tm* timeStruct = gmtime((const time_t *)&currentTime);
 
     CecTimestamp timeReceived;
     timeReceived.hour = timeStruct->tm_hour;
@@ -187,6 +194,8 @@ void importStreetpasses(Streetpass::StreetpassManager& sm, Streetpass::MBox& mbo
 
     std::unique_ptr<Streetpass::Message> message = std::make_unique<Streetpass::Message>(messageBuffer);
     message->MessageHeader().received = timeReceived;
+    message->MessageHeader().newFlag = 1;
+    message->MessageHeader().unopened = 1;
     mbox.Inbox().AddMessage(*message);
 
     Result res = CECDU_WriteMessage(mbox.ProgramId(), false, sizeof(CecMessageId), message->MessageSize(),
@@ -197,7 +206,7 @@ void importStreetpasses(Streetpass::StreetpassManager& sm, Streetpass::MBox& mbo
     }
 
     res = CECDU_OpenAndWrite(mbox.Inbox().Info().FileSize(), mbox.ProgramId(), CEC_PATH_INBOX_INFO,
-                             CEC_WRITE | CEC_CREATE, mbox.Inbox().Info().data().data());
+                             CEC_WRITE | CEC_CREATE | CEC_CHECK, mbox.Inbox().Info().data().data());
     if (R_FAILED(res)) {
         printf("Inbox BoxInfo OpenAndWrite Failed: %lX\n", res);
         //return res;
@@ -205,7 +214,7 @@ void importStreetpasses(Streetpass::StreetpassManager& sm, Streetpass::MBox& mbo
 
     mbox.Header().lastReceived = timeReceived;
     res = CECDU_OpenAndWrite(sizeof(Streetpass::CecMBoxInfoHeader), mbox.ProgramId(), CEC_PATH_MBOX_INFO,
-                             CEC_WRITE | CEC_CREATE, mbox.data().data());
+                             CEC_WRITE | CEC_CREATE | CEC_CHECK, mbox.data().data());
     if (R_FAILED(res)) {
         printf("MBoxInfo OpenAndWrite Failed: %lX\n", res);
         //return res;
