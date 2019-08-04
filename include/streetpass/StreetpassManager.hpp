@@ -25,6 +25,7 @@ public:
     void BackupBox(u8 slotNum);
     void ExportStreetpasses(u8 slotNum);
     Result ImportBox(u32 boxId);
+    void ImportStreetpasses(u32 boxId);
 
     MBoxList& BoxList();
     const MBoxList& BoxList() const;
