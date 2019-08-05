@@ -12,7 +12,7 @@
 #include "tests/tests.hpp"
 
 extern "C" {
-#include "3ds/services/cecdu.h"
+#include "3ds/services/cecd.h"
 }
 
 using Streetpass::StreetpassManager;
@@ -37,14 +37,14 @@ void init() {
     sdmcInit();
     consoleInit(GFX_TOP, nullptr);
 
-    Result res = cecduInit();
+    Result res = cecdInit();
     if (R_FAILED(res)) {
-        printf("Cecdu Init Failed: %lX\n", res);
+        printf("Cecd Init Failed: %lX\n", res);
     }
 }
 
 void shutdown() {
-    cecduExit();
+    cecdExit();
 }
 
 int main()
