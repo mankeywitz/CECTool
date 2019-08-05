@@ -6,7 +6,7 @@
 #include "STDirectory.hpp"
 
 extern "C" {
-#include "3ds/services/cecdu.h"
+#include "3ds/services/cecd.h"
 }
 
 namespace Streetpass {
@@ -374,7 +374,7 @@ void StreetpassManager::BackupBox(u8 slotNum) {
         mkdir(mboxExportOutboxPath.c_str(), 777);
 
         std::ofstream out(mboxExportPath + "MBoxInfo____", std::ios::out | std::ios::binary | std::ios::trunc);
-        out.write(reinterpret_cast<const char*>(mbox->data().data()), sizeof(Streetpass::CecMBoxInfoHeader));
+        out.write(reinterpret_cast<const char*>(mbox->data().data()), sizeof(CecMBoxInfoHeader));
         out.close();
 
         out.open(mboxExportPath + "MBoxData.001", std::ios::out | std::ios::binary | std::ios::trunc);

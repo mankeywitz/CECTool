@@ -5,6 +5,15 @@ Information for implemenation of CECD:U service taken from [here](https://www.3d
 
 Works for many games; more testing needed to find incompatible ones
 
+### Cloning
+`git clone --recursive https://github.com/NarcolepticK/CECTool.git`
+
+If there is an error about missing submodule files,
+
+`git submodule init`
+
+`git submodule update --recursive`
+
 Main Menu:
 - Create
   - Create from exported backup

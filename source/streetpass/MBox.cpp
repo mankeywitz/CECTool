@@ -57,7 +57,9 @@ u8 MBox::Flag2() const {
 }
 
 std::array<u8, 32> MBox::HmacKey() const {
-    return mboxInfoHeader.hmacKey;
+    std::array<u8, 32> ret;
+    std::memcpy(ret.data(), &mboxInfoHeader.hmacKey, sizeof(mboxInfoHeader.hmacKey));
+    return ret;
 }
 
 CecTimestamp MBox::LastAccessed() const {

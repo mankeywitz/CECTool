@@ -11,11 +11,12 @@
 #include "streetpass/MBoxTitle.hpp"
 
 extern "C" {
-#include "3ds/services/cecdu.h"
+#include "3ds/services/cecd.h"
 }
 
 namespace Streetpass {
 
+/*
 struct CecMBoxInfoHeader {
     u16 magic; // 0x6363 'cc'
     u16 padding1;
@@ -34,7 +35,7 @@ struct CecMBoxInfoHeader {
 };
 static_assert(sizeof(CecMBoxInfoHeader) == 0x60,
               "CecMBoxInfoHeader struct has incorrect size.");
-
+*/
 class MBox {
 public:
     explicit MBox(u32 id);
