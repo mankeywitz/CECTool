@@ -44,8 +44,8 @@ GFXBUILD	:=	$(BUILD)
 #ROMFS		:=	romfs
 #GFXBUILD	:=	$(ROMFS)/gfx
 
-SOURCES		+= source/common source/3ds/services source/streetpass
-INCLUDES	+= include/common include/3ds/services include/streetpass
+SOURCES		+= source/common libctru-cecd/source libctru-cecd/source/3ds/services/ source/streetpass
+INCLUDES	+= include/common libctru-cecd/include libctru-cecd/include/3ds/services/ include/streetpass
 
 SOURCES		+= source/tests source/tests/files source/tests/functions
 INCLUDES	+= include/tests include/tests/files include/tests/functions

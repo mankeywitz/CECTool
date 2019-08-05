@@ -8,7 +8,7 @@
 #include "streetpass/MBox.hpp"
 
 extern "C" {
-#include "3ds/services/cecdu.h"
+#include "3ds/services/cecd.h"
 }
 
 void displayImportMenu(Streetpass::StreetpassManager& sm) {
@@ -213,7 +213,7 @@ void importStreetpasses(Streetpass::StreetpassManager& sm, Streetpass::MBox& mbo
     }
 
     mbox.Header().lastReceived = timeReceived;
-    res = CECDU_OpenAndWrite(sizeof(Streetpass::CecMBoxInfoHeader), mbox.ProgramId(), CEC_PATH_MBOX_INFO,
+    res = CECDU_OpenAndWrite(sizeof(CecMBoxInfoHeader), mbox.ProgramId(), CEC_PATH_MBOX_INFO,
                              CEC_WRITE | CEC_CREATE | CEC_CHECK, mbox.data().data());
     if (R_FAILED(res)) {
         printf("MBoxInfo OpenAndWrite Failed: %lX\n", res);

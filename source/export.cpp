@@ -8,7 +8,7 @@
 #include "streetpass/MBox.hpp"
 
 extern "C" {
-#include "3ds/services/cecdu.h"
+#include "3ds/services/cecd.h"
 }
 
 void displayExportMenu(Streetpass::StreetpassManager& sm) {

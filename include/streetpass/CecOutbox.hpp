@@ -9,7 +9,7 @@
 #include "streetpass/OBIndex.hpp"
 
 extern "C" {
-#include "3ds/services/cecdu.h"
+#include "3ds/services/cecd.h"
 }
 
 namespace Streetpass {
