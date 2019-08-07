@@ -31,7 +31,7 @@ Result StreetpassManager::HexDump(const std::vector<u8>& buffer) const {
 }
 
 Result StreetpassManager::ListBoxes() const {
-    std::vector<std::string> boxes = mboxList->BoxNames();
+    const std::vector<std::string> boxes = mboxList->BoxNames();
 
     for (u8 slotNum = 0; slotNum < boxes.size(); slotNum++) {
         printf("[%x] %s  ", slotNum, boxes[slotNum].c_str());
@@ -43,15 +43,7 @@ Result StreetpassManager::ListBoxes() const {
     return 0;
 }
 
-Result StreetpassManager::CreateBox(u32 boxId, const std::string& boxName, std::unique_ptr<MBox> mbox) {
-    //MBoxInfo
-    //MBoxData.001
-    //MBoxData.010
-    //MBoxData.050
-    //InBox/BoxInfo
-    //OutBox/BoxInfo
-    //OutBox/OBIndex
-    //update mboxlist
+Result StreetpassManager::CreateBox(const u32 boxId, const std::string& boxName, std::unique_ptr<MBox> mbox) {
     Result res = CECDU_Open(boxId, CEC_PATH_MBOX_DIR, CEC_CREATE, nullptr);
     if (R_FAILED(res)) {
         printf("MBox Open Failed: %lX\n", res);
@@ -151,13 +143,13 @@ Result StreetpassManager::CreateBox(u32 boxId, const std::string& boxName, std::
     return 0;
 }
 
-Result StreetpassManager::DeleteBox(u8 slotNum) {
+Result StreetpassManager::DeleteBox(const u8 slotNum) {
     if (slotNum < 0 || slotNum > 11) {
         printf("DeleteBox: Slot Number out of range\n");
         return 1;
     }
-    std::vector<u32> boxIds = mboxList->BoxIds();
-    u32 id = boxIds[slotNum];
+    const std::vector<u32> boxIds = mboxList->BoxIds();
+    const u32 id = boxIds[slotNum];
 
     if (id == 0) {
         return 1;
@@ -201,8 +193,7 @@ Result StreetpassManager::DeleteAllBoxes() {
 
     mboxList->DeleteAllBoxes();
 
-    for (auto& box : boxes)
-    {
+    for (auto& box : boxes) {
         box = nullptr;
     }
 
@@ -218,17 +209,18 @@ Result StreetpassManager::DeleteAllBoxes() {
     return 0;
 }
 
-std::shared_ptr<MBox> StreetpassManager::OpenBox(u8 slotNum) const {
+std::shared_ptr<MBox> StreetpassManager::OpenBox(const u8 slotNum) const {
     if (slotNum < 0 || slotNum > 11) {
         printf("OpenBox: Slot Number out of range\n");
         return nullptr;
     }
-    if (boxes[slotNum])
-    {
+
+    if (boxes[slotNum]) {
         return boxes[slotNum];
     }
+
     std::vector<u32> boxIds = mboxList->BoxIds();
-    u32 id = boxIds[slotNum];
+    const u32 id = boxIds[slotNum];
 
     if (id == 0) {
         return nullptr;
@@ -362,7 +354,7 @@ Result StreetpassManager::ReloadBoxList() {
     return 0;
 }
 
-void StreetpassManager::BackupBox(u8 slotNum) {
+void StreetpassManager::BackupBox(const u8 slotNum) {
     const std::string boxName = BoxList().BoxNames()[slotNum];
     std::shared_ptr<Streetpass::MBox> mbox = OpenBox(slotNum);
     if (mbox) {
@@ -417,7 +409,7 @@ void StreetpassManager::BackupBox(u8 slotNum) {
     }
 }
 
-void StreetpassManager::ExportStreetpasses(u8 slotNum) {
+void StreetpassManager::ExportStreetpasses(const u8 slotNum) {
     const std::string boxName = BoxList().BoxNames()[slotNum];
     std::shared_ptr<Streetpass::MBox> mbox = OpenBox(slotNum);
     if (mbox) {
@@ -440,7 +432,7 @@ void StreetpassManager::ExportStreetpasses(u8 slotNum) {
     }
 }
 
-Result StreetpassManager::ImportBox(u32 boxId) {
+Result StreetpassManager::ImportBox(const u32 boxId) {
     // check if box already exists...
     std::vector<u32> currentBoxIds = BoxList().BoxIds();
 

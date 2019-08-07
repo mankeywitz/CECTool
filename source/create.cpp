@@ -32,7 +32,7 @@ void displayCreateMenu(Streetpass::StreetpassManager& sm) {
     printf("Press START for Main Menu\n\n");
 }
 
-void displayBackupSlotSelection(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, u8 slotNum) {
+void displayBackupSlotSelection(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum) {
     consoleClear();
     printf("CECTool\n\n");
     sm.ListBoxes();
@@ -89,6 +89,6 @@ void createMenu(Streetpass::StreetpassManager& sm) {
     }
 }
 
-void createBoxFromBackup(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, u8 slotNum) {
+void createBoxFromBackup(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum) {
     sm.ImportBox(std::stoul(backupDirectory.item(slotNum), nullptr, 16));
 }

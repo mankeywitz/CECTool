@@ -22,7 +22,7 @@ void displayImportMenu(Streetpass::StreetpassManager& sm) {
     printf("Press START for Main Menu\n\n");
 }
 
-void displayImportSlotSelection(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void displayImportSlotSelection(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     consoleClear();
     printf("CECTool\n\n");
     sm.ListBoxes();
@@ -32,7 +32,7 @@ void displayImportSlotSelection(Streetpass::StreetpassManager& sm, u8 slotNum) {
     printf("Slot Number: [%x]\n\n", slotNum);
 }
 
-void displayImportStreetpassBoxSelection(Streetpass::StreetpassManager& sm, u8 slotNum, u32 numOfStreetpasses) {
+void displayImportStreetpassBoxSelection(Streetpass::StreetpassManager& sm, const u8 slotNum, const u32 numOfStreetpasses) {
     consoleClear();
     printf("CECTool\n\n");
     sm.ListBoxes();
@@ -42,7 +42,7 @@ void displayImportStreetpassBoxSelection(Streetpass::StreetpassManager& sm, u8 s
     printf("Slot Number: [%x],  Streetpasses Available: [%lu]\n\n", slotNum, numOfStreetpasses);
 }
 
-void displayImportStreetpassSelection(Streetpass::StreetpassManager& sm, u8 slotNum, u32 inboxCount, u32 inboxLimit, const std::string& fileName) {
+void displayImportStreetpassSelection(Streetpass::StreetpassManager& sm, const u8 slotNum, const u32 inboxCount, const u32 inboxLimit, const std::string& fileName) {
     consoleClear();
     printf("CECTool\n\n");
     sm.ListBoxes();
@@ -91,7 +91,6 @@ void importMenu(Streetpass::StreetpassManager& sm) {
                 hidScanInput();
                 if (down & KEY_A) {
                     importStreetpassMenu(sm, slotNum, *importDirectory, importPath);
-                    waitForInput();
                     break;
                 } else if (down & KEY_DOWN) {
                     if (slotNum > 0) {
@@ -116,12 +115,12 @@ void importMenu(Streetpass::StreetpassManager& sm) {
     }
 }
 
-void importStreetpassMenu(Streetpass::StreetpassManager& sm, u8 slotNum, STDirectory& importDirectory, const std::string& importPath) {
+void importStreetpassMenu(Streetpass::StreetpassManager& sm, const u8 slotNum, STDirectory& importDirectory, const std::string& importPath) {
     std::shared_ptr<Streetpass::MBox> mbox = sm.OpenBox(slotNum);
     if (mbox) {
         u32 inboxCount = mbox->Inbox().Info().NumberOfMessages();
-        u32 inboxLimit = mbox->Inbox().Info().MaxMessages();
-        u32 streetpassesAvailable = importDirectory.count();
+        const u32 inboxLimit = mbox->Inbox().Info().MaxMessages();
+        const u32 streetpassesAvailable = importDirectory.count();
         u32 streetpassIndex = 0;
 
         u32 down = hidKeysDown();
@@ -164,11 +163,11 @@ void importBoxes(bool deleteBox = false) {
 
 }
 
-void importBox(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void importBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     printf("Not yet...\n");
 }
 
-void importMessages(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void importMessages(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     printf("Not yet...\n");
 }
 

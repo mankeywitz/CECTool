@@ -22,7 +22,7 @@ void displayExportMenu(Streetpass::StreetpassManager& sm) {
     printf("Press START for Main Menu\n\n");
 }
 
-void displayExportSlotSelection(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void displayExportSlotSelection(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     consoleClear();
     printf("CECTool\n\n");
     sm.ListBoxes();
@@ -81,7 +81,7 @@ void exportAllBoxes(Streetpass::StreetpassManager& sm) {
     printf("All boxes exported.\n");
 }
 
-void exportBox(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void exportBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     sm.BackupBox(slotNum);
 }
 

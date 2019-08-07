@@ -12,6 +12,6 @@
 void displayCreateMenu(Streetpass::StreetpassManager& sm);
 void createMenu(Streetpass::StreetpassManager& sm);
 
-void createBoxFromBackup(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, u8 slotNum);
+void createBoxFromBackup(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum);
 
-void displayBackupSlotSelection(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, u8 slotNum);
+void displayBackupSlotSelection(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum);

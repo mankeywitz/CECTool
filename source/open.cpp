@@ -6,7 +6,7 @@
 #include "open.hpp"
 #include "streetpass/MBox.hpp"
 
-void displayOpenMenu(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void displayOpenMenu(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     consoleClear();
     printf("CECTool\n\n");
     sm.ListBoxes();
@@ -42,7 +42,7 @@ void openMenu(Streetpass::StreetpassManager& sm) {
     }
 }
 
-void openBox(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void openBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     const std::string boxName = sm.BoxList().BoxNames()[slotNum];
     std::shared_ptr<Streetpass::MBox> mbox = sm.OpenBox(slotNum);
 

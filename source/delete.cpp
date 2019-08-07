@@ -13,7 +13,7 @@ void displayDeleteMenu(Streetpass::StreetpassManager& sm) {
     printf("Press START for Main Menu\n\n");
 }
 
-void displayDeleteSlotSelection(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void displayDeleteSlotSelection(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     consoleClear();
     printf("CECTool\n\n");
     sm.ListBoxes();
@@ -62,22 +62,20 @@ void deleteMenu(Streetpass::StreetpassManager& sm) {
     }
 }
 
-void deleteBox(Streetpass::StreetpassManager& sm, u8 slotNum) {
+void deleteBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     printf("This will delete the box in slot [%x].\n", slotNum);
     printf("Are you sure?\n");
     printf("A: Yes\t B: No\n");
     hidScanInput();
     while (aptMainLoop() && !(hidKeysDown() & KEY_A) && !(hidKeysDown() & KEY_B)) {
         hidScanInput();
-        if (hidKeysDown() & KEY_A)
-        {
+        if (hidKeysDown() & KEY_A) {
             sm.DeleteBox(slotNum);
             printf("Box deleted.\n");
             waitForInput();
             break;
         }
-        if (hidKeysDown() & KEY_B)
-        {
+        if (hidKeysDown() & KEY_B) {
             printf("Canceled.\n");
             waitForInput();
             break;
@@ -92,15 +90,13 @@ void deleteAllBoxes(Streetpass::StreetpassManager& sm) {
     hidScanInput();
     while (aptMainLoop() && !(hidKeysDown() & KEY_A) && !(hidKeysDown() & KEY_B)) {
         hidScanInput();
-        if (hidKeysDown() & KEY_A)
-        {
+        if (hidKeysDown() & KEY_A) {
             sm.DeleteAllBoxes();
             printf("All boxes deleted.\n");
             waitForInput();
             break;
         }
-        if (hidKeysDown() & KEY_B)
-        {
+        if (hidKeysDown() & KEY_B) {
             printf("Canceled.\n");
             waitForInput();
             break;

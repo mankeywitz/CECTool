@@ -17,15 +17,15 @@ public:
     Result HexDump(const std::vector<u8>& buffer) const;
     Result ListBoxes() const;
 
-    std::shared_ptr<MBox> OpenBox(u8 slotNum) const;
+    std::shared_ptr<MBox> OpenBox(const u8 slotNum) const;
 
-    Result CreateBox(u32 boxId, const std::string& boxName, std::unique_ptr<MBox> mbox);
-    Result DeleteBox(u8 slotNum);
+    Result CreateBox(const u32 boxId, const std::string& boxName, std::unique_ptr<MBox> mbox);
+    Result DeleteBox(const u8 slotNum);
     Result DeleteAllBoxes();
-    void BackupBox(u8 slotNum);
-    void ExportStreetpasses(u8 slotNum);
-    Result ImportBox(u32 boxId);
-    void ImportStreetpasses(u32 boxId);
+    void BackupBox(const u8 slotNum);
+    void ExportStreetpasses(const u8 slotNum);
+    Result ImportBox(const u32 boxId);
+    void ImportStreetpasses(const u32 boxId);
 
     MBoxList& BoxList();
     const MBoxList& BoxList() const;

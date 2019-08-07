@@ -19,7 +19,7 @@ using Streetpass::StreetpassManager;
 
 int __stacksize__ = 64 * 1024;
 
-void cecToolDirectoryCheck() {
+void cecToolDirectoryCheck(void) {
     // What happens if there is no sd card...?
     mkdir("/3ds/CECTool", 777);
     mkdir("/3ds/CECTool/export", 777);
@@ -30,7 +30,7 @@ void cecToolDirectoryCheck() {
     mkdir("/3ds/CECTool/tests", 777);
 }
 
-void init() {
+void init(void) {
     gfxInitDefault();
     hidInit();
     hidScanInput();
@@ -43,12 +43,11 @@ void init() {
     }
 }
 
-void shutdown() {
+void shutdown(void) {
     cecdExit();
 }
 
-int main()
-{
+int main(void) {
     init();
     cecToolDirectoryCheck();
 
@@ -56,8 +55,7 @@ int main()
 
     bool showMenu = true;
     u32 down = hidKeysDown();
-    while (aptMainLoop() && !(down & KEY_START))
-    {
+    while (aptMainLoop() && !(down & KEY_START)) {
         if (showMenu) {
             consoleClear();
             printf("CECTool\n\n");

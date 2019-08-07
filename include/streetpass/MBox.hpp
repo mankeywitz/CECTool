@@ -16,26 +16,6 @@ extern "C" {
 
 namespace Streetpass {
 
-/*
-struct CecMBoxInfoHeader {
-    u16 magic; // 0x6363 'cc'
-    u16 padding1;
-    u32 programId;
-    u32 privateId;
-    u8 flag;
-    u8 flag2;
-    u16 padding2;
-    std::array<u8, 32> hmacKey;
-    u32 padding3;
-    CecTimestamp lastAccessed;
-    u32 padding4;
-    CecTimestamp lastReceived;
-    u32 padding5;
-    CecTimestamp unknownTime;
-};
-static_assert(sizeof(CecMBoxInfoHeader) == 0x60,
-              "CecMBoxInfoHeader struct has incorrect size.");
-*/
 class MBox {
 public:
     explicit MBox(u32 id);
