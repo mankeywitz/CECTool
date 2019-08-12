@@ -17,6 +17,14 @@ GetCecdState::~GetCecdState() {
 
 void GetCecdState::RunTest() {
     log << "Starting Test" << std::endl;
+
+    Result res;
+    u32 state = 0;
+    
+    res = CECDU_GetCecdState(&state);
+    log << "  result: " << std::hex << res << " state: " << state << std::endl;
+
+
     log << "Test Finished" << std::endl;
 }
 
