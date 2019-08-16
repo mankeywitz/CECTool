@@ -102,7 +102,7 @@ int main(void) {
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_X) {
-            exportMenu(*sm);
+            exportMenu(screens, *sm);
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_Y) {
