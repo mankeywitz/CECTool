@@ -17,8 +17,9 @@ void displayExportMenu(Streetpass::StreetpassManager& sm) {
     sm.ListBoxes();
     printf("\n\nExport Menu\n\n");
     printf("[A] Export a Box\n");
-    printf("[B] Export all boxes\n\n");
-    printf("[X] Export all streetpasses\n\n");
+    printf("[B] Export all Boxes\n");
+    printf("[X] Export a Streetpass Message\n");
+    printf("[Y] Export all Streetpass Messsages\n\n");
     printf("Press START for Main Menu\n\n");
 }
 
@@ -67,6 +68,10 @@ void exportMenu(Streetpass::StreetpassManager& sm) {
             waitForInput();
             break;
         } else if (down & KEY_X) {
+            exportStreetpassMessage(sm, 0);
+            waitForInput();
+            break;
+        } else if (down & KEY_Y) {
             exportAllStreetpasses(sm);
             waitForInput();
             break;
@@ -83,6 +88,10 @@ void exportAllBoxes(Streetpass::StreetpassManager& sm) {
 
 void exportBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     sm.BackupBox(slotNum);
+}
+
+void exportStreetpassMessage(Streetpass::StreetpassManager& sm, const u8 slotNum) {
+    printf("Unimplemented.\n");
 }
 
 void exportAllStreetpasses(Streetpass::StreetpassManager& sm) {

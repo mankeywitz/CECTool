@@ -9,7 +9,9 @@ void displayDeleteMenu(Streetpass::StreetpassManager& sm) {
     sm.ListBoxes();
     printf("\n\nDelete Menu\n\n");
     printf("[A] Delete a Box\n");
-    printf("[B] Delete all boxes\n\n");
+    printf("[B] Delete all boxes\n");
+    printf("[X] Delete a Streetpass Message\n");
+    printf("[Y] Delete all Streetpass Messages in a Box\n\n");
     printf("Press START for Main Menu\n\n");
 }
 
@@ -58,6 +60,14 @@ void deleteMenu(Streetpass::StreetpassManager& sm) {
             deleteAllBoxes(sm);
             waitForInput();
             break;
+        } else if (down & KEY_X) {
+            deleteStreetpassMessage(sm);
+            waitForInput();
+            break;
+        } else if (down & KEY_Y) {
+            deleteAllStreetpassMessages(sm);
+            waitForInput();
+            break;
         }
     }
 }
@@ -102,4 +112,12 @@ void deleteAllBoxes(Streetpass::StreetpassManager& sm) {
             break;
         }
     }
+}
+
+void deleteStreetpassMessage(Streetpass::StreetpassManager& sm) {
+    printf("Unimplemented.\n");
+}
+
+void deleteAllStreetpassMessages(Streetpass::StreetpassManager& sm) {
+    printf("Unimplemented.\n");
 }
