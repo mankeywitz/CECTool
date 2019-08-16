@@ -1,8 +1,9 @@
 #pragma once
 
+#include "common/util.hpp"
 #include "streetpass/StreetpassManager.hpp"
 
-void displayOpenMenu(Streetpass::StreetpassManager& sm, const u8 slotNum);
-void openMenu(Streetpass::StreetpassManager& sm);
+void displayOpenMenu(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);
+void openMenu(Screens& screens, Streetpass::StreetpassManager& sm);
 
-void openBox(Streetpass::StreetpassManager& sm, const u8 slotNum);
+void openBox(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);

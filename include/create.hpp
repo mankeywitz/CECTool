@@ -5,13 +5,14 @@
 #include <string>
 
 #include "common/STDirectory.hpp"
+#include "common/util.hpp"
 #include "streetpass/Box.hpp"
 #include "streetpass/MBoxList.hpp"
 #include "streetpass/StreetpassManager.hpp"
 
-void displayCreateMenu(Streetpass::StreetpassManager& sm);
-void createMenu(Streetpass::StreetpassManager& sm);
+void displayCreateMenu(Screens& screens, Streetpass::StreetpassManager& sm);
+void createMenu(Screens& screens, Streetpass::StreetpassManager& sm);
 
-void createBoxFromBackup(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum);
+void createBoxFromBackup(Screens& screens, Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum);
 
-void displayBackupSlotSelection(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum);
+void displayBackupSlotSelection(Screens& screens, Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum);
