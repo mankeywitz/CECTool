@@ -98,7 +98,7 @@ int main(void) {
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_B) {
-            deleteMenu(*sm);
+            deleteMenu(screens, *sm);
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_X) {
