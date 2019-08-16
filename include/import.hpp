@@ -1,15 +1,17 @@
 #pragma once
 
-#include "streetpass/StreetpassManager.hpp"
 #include "common/STDirectory.hpp"
+#include "common/util.hpp"
 
-void displayImportMenu(Streetpass::StreetpassManager& sm);
-void displayImportSlotSelection(Streetpass::StreetpassManager& sm, const u8 slotNum);
-void displayImportStreetpassBoxSelection(Streetpass::StreetpassManager& sm, const u8 slotNum, const u32 numOfStreetpasses);
-void displayImportStreetpassSelection(Streetpass::StreetpassManager& sm, const u8 slotNum, const u32 inboxCount, const u32 inboxLimit, const std::string& fileName);
+#include "streetpass/StreetpassManager.hpp"
 
-void importMenu(Streetpass::StreetpassManager& sm);
-void importStreetpassMenu(Streetpass::StreetpassManager& sm, const u8 slotNum, STDirectory& importDirectory, const std::string& importPath);
+void displayImportMenu(Screens& screens, Streetpass::StreetpassManager& sm);
+void displayImportSlotSelection(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);
+void displayImportStreetpassBoxSelection(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum, const u32 numOfStreetpasses);
+void displayImportStreetpassSelection(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum, const u32 inboxCount, const u32 inboxLimit, const std::string& fileName);
 
-void importBox(Streetpass::StreetpassManager& sm, const u8 slotNum);
-void importStreetpasses(Streetpass::StreetpassManager& sm, Streetpass::MBox& mbox, const std::string& importPath, const std::string& fileName);
+void importMenu(Screens& screens, Streetpass::StreetpassManager& sm);
+void importStreetpassMenu(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum, STDirectory& importDirectory, const std::string& importPath);
+
+void importBox(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);
+void importStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm, Streetpass::MBox& mbox, const std::string& importPath, const std::string& fileName);

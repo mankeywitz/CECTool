@@ -106,7 +106,7 @@ int main(void) {
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_Y) {
-            importMenu(*sm);
+            importMenu(screens, *sm);
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_L) {
