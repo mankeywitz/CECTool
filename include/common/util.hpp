@@ -32,6 +32,8 @@ struct Screens {
     PrintConsole bottom;
 };
 
+void ClearScreen(PrintConsole* screen);
+
 void SetColor(Color fgColor);
 void SetColor(Color fgColor, Color bgColor);
 

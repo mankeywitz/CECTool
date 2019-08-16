@@ -2,6 +2,11 @@
 #include <cstdio>
 #include "common/util.hpp"
 
+void ClearScreen(PrintConsole* screen) {
+    consoleSelect(screen);
+    consoleClear();
+}
+
 void SetColor(Color fgColor) {
     printf("\x1b[%dm", static_cast<int>(fgColor));
 }

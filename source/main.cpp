@@ -22,7 +22,6 @@ int __stacksize__ = 64 * 1024;
 Screens screens{};
 
 void cecToolDirectoryCheck(void) {
-    // What happens if there is no sd card...?
     mkdir("/3ds/CECTool", 777);
     mkdir("/3ds/CECTool/export", 777);
     mkdir("/3ds/CECTool/export/streetpasses", 777);
@@ -77,7 +76,8 @@ int main(void) {
     u32 down = hidKeysDown();
     while (aptMainLoop() && !(down & KEY_START)) {
         if (showMenu) {
-            consoleClear();
+            ClearScreen(&screens.bottom);
+            ClearScreen(&screens.top);
             printf("CECTool\n\n");
             sm->ListBoxes();
             printf("\n\nMain Menu\n\n");
@@ -116,9 +116,12 @@ int main(void) {
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_R) {
+            consoleSelect(&screens.bottom);
             printf("Testing...\n");
             Tests::RunAllTests();
             printf("Done!\n");
+            consoleSelect(&screens.top);
+
             waitForInput();
             showMenu = true;
         }
