@@ -26,7 +26,6 @@ void cecToolDirectoryCheck(void) {
     mkdir("/3ds/CECTool/export/streetpasses", 777);
     mkdir("/3ds/CECTool/import", 777);
     mkdir("/3ds/CECTool/import/streetpasses", 777);
-    mkdir("/3ds/CECTool/template", 777);
     mkdir("/3ds/CECTool/tests", 777);
 }
 

@@ -11,8 +11,5 @@ void displayImportStreetpassSelection(Streetpass::StreetpassManager& sm, const u
 void importMenu(Streetpass::StreetpassManager& sm);
 void importStreetpassMenu(Streetpass::StreetpassManager& sm, const u8 slotNum, STDirectory& importDirectory, const std::string& importPath);
 
-void importBoxes(bool deleteBox);
 void importBox(Streetpass::StreetpassManager& sm, const u8 slotNum);
-void importMessages(Streetpass::StreetpassManager& sm, const u8 slotNum);
-
 void importStreetpasses(Streetpass::StreetpassManager& sm, Streetpass::MBox& mbox, const std::string& importPath, const std::string& fileName);
