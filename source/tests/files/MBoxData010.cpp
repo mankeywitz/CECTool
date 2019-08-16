@@ -1,7 +1,6 @@
 #include "tests/files/MBoxData010.hpp"
 
-extern "C"
-{
+extern "C" {
 #include "3ds/services/cecd.h"
 }
 

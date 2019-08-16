@@ -1,7 +1,6 @@
 #include "tests/functions/GetCecInfoEventHandle.hpp"
 
-extern "C"
-{
+extern "C" {
 #include "3ds/services/cecd.h"
 }
 
@@ -23,7 +22,6 @@ void GetCecInfoEventHandle::RunTest() {
     
     res = CECDU_GetCecInfoEventHandle(&handle);
     log << "  result: " << std::hex << res << " handle: " << handle << std::endl;
-
 
     log << "Test Finished" << std::endl;
 }

@@ -1,7 +1,6 @@
 #include "tests/functions/GetCecInfoBuffer.hpp"
 
-extern "C"
-{
+extern "C" {
 #include "3ds/services/cecd.h"
 }
 
