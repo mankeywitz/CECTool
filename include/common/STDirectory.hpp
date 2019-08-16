@@ -27,8 +27,9 @@
 #ifndef STDIRECTORY_HPP
 #define STDIRECTORY_HPP
 
-#include <dirent.h>
 #include <3ds.h>
+#include <cstring>
+#include <dirent.h>
 #include <errno.h>
 #include <string>
 #include <vector>
@@ -36,6 +37,13 @@
 struct STDirectoryEntry {
     std::string name;
     bool        directory;
+
+    bool operator==(const std::string& dirName) {
+        if(std::strcmp(name.c_str(), dirName.c_str()) == 0) {
+            return true;
+        }
+        return false;
+    };
 };
 
 class STDirectory
@@ -49,9 +57,9 @@ public:
     bool        folder(size_t index);
     bool        good(void);
     size_t      count(void);
+    std::vector<STDirectoryEntry> mList;
 
 private:
-    std::vector<STDirectoryEntry> mList;
     Result                  mError;
     bool                    mGood;
 };

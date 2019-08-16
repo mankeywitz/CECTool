@@ -94,7 +94,7 @@ int main(void) {
         hidScanInput();
 
         if (down & KEY_A) {
-            createMenu(*sm);
+            createMenu(screens, *sm);
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_B) {
