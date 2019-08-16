@@ -19,8 +19,6 @@ using Streetpass::StreetpassManager;
 
 int __stacksize__ = 64 * 1024;
 
-Screens screens{};
-
 void cecToolDirectoryCheck(void) {
     mkdir("/3ds/CECTool", 777);
     mkdir("/3ds/CECTool/export", 777);
@@ -30,7 +28,7 @@ void cecToolDirectoryCheck(void) {
     mkdir("/3ds/CECTool/tests", 777);
 }
 
-Result init(void) {
+Result init(Screens& screens) {
     Result ret = 0;
 
     gfxInitDefault();
@@ -62,7 +60,8 @@ void shutdown(void) {
 }
 
 int main(void) {
-    Result ret = init();
+    Screens screens{};
+    Result ret = init(screens);
     if (R_FAILED(ret)) {
         printf("Init Failed: %lX\n", ret);
         return 1;
@@ -76,8 +75,7 @@ int main(void) {
     u32 down = hidKeysDown();
     while (aptMainLoop() && !(down & KEY_START)) {
         if (showMenu) {
-            ClearScreen(&screens.bottom);
-            ClearScreen(&screens.top);
+            ClearScreens(screens);
             printf("CECTool\n\n");
             sm->ListBoxes();
             printf("\n\nMain Menu\n\n");
@@ -112,7 +110,7 @@ int main(void) {
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_L) {
-            openMenu(*sm);
+            openMenu(screens, *sm);
             down = hidKeysDown();
             showMenu = true;
         } else if (down & KEY_R) {

@@ -33,8 +33,9 @@ struct Screens {
 };
 
 void ClearScreen(PrintConsole* screen);
+void ClearScreens(Screens& screens);
 
 void SetColor(Color fgColor);
 void SetColor(Color fgColor, Color bgColor);
 
-void waitForInput();
+void waitForInput(void);

@@ -7,6 +7,11 @@ void ClearScreen(PrintConsole* screen) {
     consoleClear();
 }
 
+void ClearScreens(Screens& screens) {
+    ClearScreen(&screens.bottom);
+    ClearScreen(&screens.top);
+}
+
 void SetColor(Color fgColor) {
     printf("\x1b[%dm", static_cast<int>(fgColor));
 }
@@ -15,7 +20,7 @@ void SetColor(Color fgColor, Color bgColor) {
     printf("\x1b[%dm\x1b[%dm", static_cast<int>(fgColor), static_cast<int>(bgColor));
 }
 
-void waitForInput() {
+void waitForInput(void) {
     while (aptMainLoop() && !hidKeysDown()) hidScanInput();
     hidScanInput();
 }
