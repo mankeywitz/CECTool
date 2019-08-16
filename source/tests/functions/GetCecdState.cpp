@@ -1,7 +1,6 @@
 #include "tests/functions/GetCecdState.hpp"
 
-extern "C"
-{
+extern "C" {
 #include "3ds/services/cecd.h"
 }
 
@@ -17,6 +16,13 @@ GetCecdState::~GetCecdState() {
 
 void GetCecdState::RunTest() {
     log << "Starting Test" << std::endl;
+
+    Result res;
+    u32 state = 0;
+    
+    res = CECDU_GetCecdState(&state);
+    log << "  result: " << std::hex << res << " state: " << state << std::endl;
+
     log << "Test Finished" << std::endl;
 }
 
