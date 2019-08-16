@@ -19,6 +19,8 @@ using Streetpass::StreetpassManager;
 
 int __stacksize__ = 64 * 1024;
 
+Screens screens{};
+
 void cecToolDirectoryCheck(void) {
     // What happens if there is no sd card...?
     mkdir("/3ds/CECTool", 777);
@@ -29,17 +31,31 @@ void cecToolDirectoryCheck(void) {
     mkdir("/3ds/CECTool/tests", 777);
 }
 
-void init(void) {
-    gfxInitDefault();
-    hidInit();
-    hidScanInput();
-    sdmcInit();
-    consoleInit(GFX_TOP, nullptr);
+Result init(void) {
+    Result ret = 0;
 
-    Result res = cecdInit();
-    if (R_FAILED(res)) {
-        printf("Cecd Init Failed: %lX\n", res);
+    gfxInitDefault();
+    // Initialize both screens
+    consoleInit(GFX_BOTTOM, &screens.bottom);
+    consoleInit(GFX_TOP, &screens.top);
+
+    hidInit();
+    if (R_FAILED(ret)) {
+        printf("Hid Init Failed: %lX\n", ret);
+        return ret;
     }
+
+    sdmcInit();
+    if (R_FAILED(ret)) {
+        printf("Sdmc Init Failed: %lX\n", ret);
+        return ret;
+    }
+
+    ret = cecdInit();
+    if (R_FAILED(ret)) {
+        printf("Cecd Init Failed: %lX\n", ret);
+    }
+    return ret;
 }
 
 void shutdown(void) {
@@ -47,12 +63,17 @@ void shutdown(void) {
 }
 
 int main(void) {
-    init();
+    Result ret = init();
+    if (R_FAILED(ret)) {
+        printf("Init Failed: %lX\n", ret);
+        return 1;
+    }
     cecToolDirectoryCheck();
 
     std::unique_ptr<StreetpassManager> sm = std::make_unique<StreetpassManager>();
-
+    // Main menu loop; Start to exit
     bool showMenu = true;
+    hidScanInput();
     u32 down = hidKeysDown();
     while (aptMainLoop() && !(down & KEY_START)) {
         if (showMenu) {
