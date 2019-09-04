@@ -95,23 +95,23 @@ int main(void) {
 
         if (down & KEY_A) {
             createMenu(screens, *sm);
-            down = hidKeysDown();
+            waitForInput();
             showMenu = true;
         } else if (down & KEY_B) {
             deleteMenu(screens, *sm);
-            down = hidKeysDown();
+            waitForInput();
             showMenu = true;
         } else if (down & KEY_X) {
             exportMenu(screens, *sm);
-            down = hidKeysDown();
+            waitForInput();
             showMenu = true;
         } else if (down & KEY_Y) {
             importMenu(screens, *sm);
-            down = hidKeysDown();
+            waitForInput();
             showMenu = true;
         } else if (down & KEY_L) {
             openMenu(screens, *sm);
-            down = hidKeysDown();
+            waitForInput();
             showMenu = true;
         } else if (down & KEY_R) {
             consoleSelect(&screens.bottom);
