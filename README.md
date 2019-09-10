@@ -37,6 +37,7 @@ If there is an error about missing submodule files,
 - #### Tests
   - *Partial*
 
-Issues are welcome to help increase compatibility. There are a large number of titles to test, and my sample size is small.
+### Notes
+Issues and suggestions are welcome. There are a large number of titles to test, and my sample size is small.
 
 Tested import streetpasses with smash bros in Citra (HLE & LLE), and it registered hits.
