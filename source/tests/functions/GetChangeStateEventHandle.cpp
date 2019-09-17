@@ -20,7 +20,7 @@ void GetChangeStateEventHandle::RunTest() {
     Result res;
     Handle handle = 0;
     
-    res = CECDU_GetChangeStateEventHandle(&handle);
+    res = cecdGetChangeStateEventHandle(&handle);
     log << "  result: " << std::hex << res << " handle: " << handle << std::endl;
 
     log << "Test Finished" << std::endl;

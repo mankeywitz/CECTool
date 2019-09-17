@@ -194,23 +194,22 @@ void importStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm, Str
     message->MessageHeader().unopened = 1;
     mbox.Inbox().AddMessage(*message);
 
-    Result res = CECDU_WriteMessage(mbox.ProgramId(), false, sizeof(CecMessageId), message->MessageSize(),
-                                    message->data().data(), message->MessageId().data);
+    Result res = cecdWriteMessage(mbox.ProgramId(), false, message->MessageId().data, sizeof(CecMessageId), message->data().data(),message->MessageSize());
     if (R_FAILED(res)) {
         printf("Inbox WriteMessage Failed: %lX\n", res);
         //return res;
     }
 
-    res = CECDU_OpenAndWrite(mbox.Inbox().Info().FileSize(), mbox.ProgramId(), CEC_PATH_INBOX_INFO,
-                             CEC_WRITE | CEC_CREATE | CEC_CHECK, mbox.Inbox().Info().data().data());
+    res = cecdOpenAndWrite(mbox.Inbox().Info().data().data(), mbox.Inbox().Info().FileSize(), mbox.ProgramId(), CEC_PATH_INBOX_INFO,
+                           CEC_WRITE | CEC_CREATE | CEC_CHECK);
     if (R_FAILED(res)) {
         printf("Inbox BoxInfo OpenAndWrite Failed: %lX\n", res);
         //return res;
     }
 
     mbox.Header().lastReceived = timeReceived;
-    res = CECDU_OpenAndWrite(sizeof(CecMBoxInfoHeader), mbox.ProgramId(), CEC_PATH_MBOX_INFO,
-                             CEC_WRITE | CEC_CREATE | CEC_CHECK, mbox.data().data());
+    res = cecdOpenAndWrite(mbox.data().data(), sizeof(CecMBoxInfoHeader), mbox.ProgramId(), CEC_PATH_MBOX_INFO,
+                             CEC_WRITE | CEC_CREATE | CEC_CHECK);
     if (R_FAILED(res)) {
         printf("MBoxInfo OpenAndWrite Failed: %lX\n", res);
         //return res;

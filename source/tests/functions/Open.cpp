@@ -23,13 +23,13 @@ void Open::RunTest() {
 
     log << "Open CEC_PATH_ROOT_DIR:CEC_READ Test" << std::endl;
 
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_READ, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_READ, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res << std::dec
         << " fileSize: " << fileSize << std::endl;
 
     fileSize = 0;
     programId = 0xFFFFFFFF;
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_READ, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_READ, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res << std::dec
         << " fileSize: " << fileSize << std::endl;
 
@@ -37,13 +37,13 @@ void Open::RunTest() {
     
     fileSize = 0;
     programId = 0x00000000;
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_WRITE, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_WRITE, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res << std::dec
         << " fileSize: " << fileSize << std::endl;
 
     fileSize = 0;
     programId = 0xFFFFFFFF;
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_WRITE, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_WRITE, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res << std::dec
         << " fileSize: " << fileSize << std::endl;
 
@@ -51,13 +51,13 @@ void Open::RunTest() {
     
     fileSize = 0;
     programId = 0x00000000;
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_CREATE, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_CREATE, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res
         << " fileSize: " << fileSize << std::endl;
 
     fileSize = 0;
     programId = 0xFFFFFFFF;
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_CREATE, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_CREATE, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res
         << " fileSize: " << fileSize << std::endl;
 
@@ -65,13 +65,13 @@ void Open::RunTest() {
     
     fileSize = 0;
     programId = 0x00000000;
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_CHECK, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_CHECK, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res
         << " fileSize: " << fileSize << std::endl;
 
     fileSize = 0;
     programId = 0xFFFFFFFF;
-    res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, CEC_CHECK, &fileSize);
+    res = cecdOpen(programId, CEC_PATH_ROOT_DIR, CEC_CHECK, &fileSize);
     log << "   programId: " << std::hex << programId << " result: " << res
         << " fileSize: " << fileSize << std::endl;
 
@@ -82,7 +82,7 @@ void Open::RunTest() {
     
     for (u32 openFlag = 0; openFlag < 128; openFlag++) {
         fileSize = 0;
-        res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, openFlag, &fileSize);
+        res = cecdOpen(programId, CEC_PATH_ROOT_DIR, openFlag, &fileSize);
         log << "    openFlag: " << openFlag << " result: " << res << " fileSize: " << fileSize << std::endl;
     }
 
@@ -91,7 +91,7 @@ void Open::RunTest() {
 
     for (u32 openFlag = 0; openFlag < 128; openFlag++) {
         fileSize = 0;
-        res = CECDU_Open(programId, CEC_PATH_ROOT_DIR, openFlag, &fileSize);
+        res = cecdOpen(programId, CEC_PATH_ROOT_DIR, openFlag, &fileSize);
         log << "    openFlag: " << openFlag << " result: " << res << " fileSize: " << fileSize << std::endl;
     }
 

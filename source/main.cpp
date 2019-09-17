@@ -48,15 +48,15 @@ Result init(Screens& screens) {
         return ret;
     }
 
-    ret = cecdInit();
+    ret = cecduInit();
     if (R_FAILED(ret)) {
-        printf("Cecd Init Failed: %lX\n", ret);
+        printf("Cecdu Init Failed: %lX\n", ret);
     }
     return ret;
 }
 
 void shutdown(void) {
-    cecdExit();
+    cecduExit();
 }
 
 int main(void) {

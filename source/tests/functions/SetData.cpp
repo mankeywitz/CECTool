@@ -25,7 +25,7 @@ void SetData::RunTest() {
     // Option 2 example
     for (u32 size = 0; size < 128; size++)
     {
-        res = CECDU_SetData(0x0010c000, size, 2, &buffer);
+        res = cecdSetData(0x0010c00, &buffer, size, 2);
         log << "buffer size: " << size << " result: " << std::hex << res << std::dec << std::endl;
     }
     log << "Test Finished" << std::endl;
