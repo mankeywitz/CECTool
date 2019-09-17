@@ -20,7 +20,7 @@ void GetEventLogStart::RunTest() {
     Result res;
     u32 start = 0;
     
-    res = CECDU_GetEventLogStart(&start);
+    res = cecdGetEventLogStart(&start);
     log << "  result: " << std::hex << res << " start: " << start << std::endl;
 
     log << "Test Finished" << std::endl;
