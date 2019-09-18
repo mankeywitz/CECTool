@@ -1,11 +1,9 @@
 # CECTool
 A Nintendo 3ds Streetpass Management Tool.
 
-Information for initial implemenation of CECD:U service taken from [here](https://www.3dbrew.org/wiki/CECD_Services) and [here](https://gist.github.com/wwylele/29a8caa6f5e5a7d88a00bedae90472ed)
+Information for initial implemenation of cecd:u service taken from [here](https://www.3dbrew.org/wiki/CECD_Services) and [here](https://gist.github.com/wwylele/29a8caa6f5e5a7d88a00bedae90472ed). Further information can be found in [CECDocs](https://github.com/NarcolepticK/CECDocs) (*WIP*)
 
-Further information can be found in [CECDocs](https://github.com/NarcolepticK/CECDocs) (*WIP*)
-
-Works for many games; more testing needed to find incompatible ones
+Runs on the 3ds and in Citra.
 
 ### Cloning
 `git clone --recursive https://github.com/NarcolepticK/CECTool.git`
@@ -15,6 +13,11 @@ If there is an error about missing submodule files,
 `git submodule init`
 
 `git submodule update --recursive`
+
+### Importing and Exporting Streetpasses
+Exported Streetpasses are located on the Sd card in **/3ds/CECTool/export/streetpasses**. That directory contains a folder for each messagebox, based on the programId of the app, and inside there lies the messages exported.
+
+To import, copy the exported folder(s) into **/3ds/CECTool/import/streetpasses**. CECTool parses that directory for programIds and compares against the list of activated boxes, and displays only the available boxes to import. You then select which message you would like to import, and can do so up to the message limit for that box.
 
 ### Main Menu:
 - #### Create
