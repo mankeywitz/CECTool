@@ -5,6 +5,8 @@ Information for initial implemenation of cecd:u service taken from [here](https:
 
 Runs on the 3ds and in Citra.
 
+A 3dsx release is now available if you just want to try it out without compiling.
+
 ### Cloning
 `git clone --recursive https://github.com/NarcolepticK/CECTool.git`
 
