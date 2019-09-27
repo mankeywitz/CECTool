@@ -42,6 +42,7 @@ public:
 
     CecMBoxListHeader& Header();
     const CecMBoxListHeader& Header() const;
+
 private:
     CecMBoxListHeader mboxListHeader;
 

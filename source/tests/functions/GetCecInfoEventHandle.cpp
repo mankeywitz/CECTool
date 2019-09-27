@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 GetCecInfoEventHandle::GetCecInfoEventHandle(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 GetCecInfoEventHandle::~GetCecInfoEventHandle() {

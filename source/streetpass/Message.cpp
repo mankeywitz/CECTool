@@ -5,7 +5,6 @@
 namespace Streetpass {
 
 Message::Message() : messageHeader(), messageData() {
-
 }
 
 Message::Message(const std::vector<u8>& buffer) : messageHeader(), messageData() {

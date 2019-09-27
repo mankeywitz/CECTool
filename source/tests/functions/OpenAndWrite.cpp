@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 OpenAndWrite::OpenAndWrite(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 OpenAndWrite::~OpenAndWrite() {

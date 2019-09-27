@@ -3,11 +3,9 @@
 namespace Streetpass {
 
 MBoxIcon::MBoxIcon() : iconData() {
-
 }
 
 MBoxIcon::MBoxIcon(const std::vector<u8>& buffer) : iconData(buffer) {
-    
 }
 
 std::vector<u8> MBoxIcon::data() const {

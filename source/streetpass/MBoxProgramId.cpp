@@ -3,11 +3,9 @@
 namespace Streetpass {
 
 MBoxProgramId::MBoxProgramId() : programIdData() {
-
 }
 
 MBoxProgramId::MBoxProgramId(const std::vector<u8>& buffer) : programIdData(buffer) {
-    
 }
 
 std::vector<u8> MBoxProgramId::data() const {

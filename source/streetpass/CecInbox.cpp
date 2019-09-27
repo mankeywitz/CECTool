@@ -22,7 +22,6 @@ CecInbox::CecInbox(u32 id, std::unique_ptr<BoxInfo> inboxInfo) : boxId(id),
 
 CecInbox::CecInbox(u32 id, std::unique_ptr<BoxInfo> inboxInfo, const std::vector<Message>& messages)
     : boxId(id), boxInfo(std::move(inboxInfo)), messages(messages) {
-
 }
 
 CecInbox::CecInbox(u32 id) : boxId(id), messages() {

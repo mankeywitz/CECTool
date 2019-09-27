@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 ReadMessage::ReadMessage(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 ReadMessage::~ReadMessage() {

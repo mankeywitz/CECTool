@@ -55,7 +55,6 @@ unsigned char *base64_decode(const char *data, size_t input_length, size_t *outp
     if (decoded_data == NULL) return NULL;
 
     for (size_t i = 0, j = 0; i < input_length;) {
-
         uint32_t sextet_a = data[i] == '=' ? 0 & i++ : decoding_table[(size_t)data[i++]];
         uint32_t sextet_b = data[i] == '=' ? 0 & i++ : decoding_table[(size_t)data[i++]];
         uint32_t sextet_c = data[i] == '=' ? 0 & i++ : decoding_table[(size_t)data[i++]];
@@ -78,11 +77,9 @@ unsigned char *base64_decode(const char *data, size_t input_length, size_t *outp
 std::string base64_encode(const char *data, size_t input_length)
 {
     //size_t output_length = 4 * ((input_length + 2) / 3); unused
-
     std::string ret = "";
 
     for (size_t i = 0, j = 0; i < input_length; j += 4) {
-
         uint32_t octet_a = i < input_length ? (unsigned char)data[i++] : 0;
         uint32_t octet_b = i < input_length ? (unsigned char)data[i++] : 0;
         uint32_t octet_c = i < input_length ? (unsigned char)data[i++] : 0;

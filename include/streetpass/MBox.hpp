@@ -69,7 +69,6 @@ private:
     std::unique_ptr<MBoxIcon> mboxIcon;
     std::unique_ptr<MBoxProgramId> mboxProgramId;
     std::unique_ptr<MBoxTitle> mboxTitle;
-
 };
 
 } // namespace Streetpass

@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 Delete::Delete(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 Delete::~Delete() {

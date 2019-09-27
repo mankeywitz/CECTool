@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 GetCecInfoBuffer::GetCecInfoBuffer(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 GetCecInfoBuffer::~GetCecInfoBuffer() {

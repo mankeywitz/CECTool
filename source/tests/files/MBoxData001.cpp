@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 MBoxData001::MBoxData001(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 MBoxData001::~MBoxData001() {

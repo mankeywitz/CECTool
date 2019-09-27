@@ -43,7 +43,6 @@ void displayImportStreetpassBoxSelection(Screens& screens, Streetpass::Streetpas
     consoleSelect(&screens.bottom);
     printf("Slot Number: [%x]\n", slotNum);
     printf("Streetpasses Available: [%lu]\n", numOfStreetpasses);
-    
 }
 
 void displayImportStreetpassSelection(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum, const u32 inboxCount, const u32 inboxLimit, const std::string& fileName) {
@@ -175,18 +174,23 @@ void importStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm, Str
     in.seekg(0, in.beg);
     std::vector<u8> messageBuffer(messageSize);
     in.read(reinterpret_cast<char*>(messageBuffer.data()), messageSize);
+    if(!in) {
+        printf("Error reading message.\n");
+    }
     in.close();
 
-    time_t currentTime = time(NULL);
-    struct tm* timeStruct = gmtime((const time_t *)&currentTime);
+    time_t currentTime;
+    struct tm timeStruct;
+    time(&currentTime);
+    gmtime_r(&currentTime, &timeStruct);
 
     CecTimestamp timeReceived;
-    timeReceived.hour = timeStruct->tm_hour;
-    timeReceived.minute = timeStruct->tm_min;
-    timeReceived.second = timeStruct->tm_sec;
-    timeReceived.day = timeStruct->tm_mday;
-    timeReceived.month = timeStruct->tm_mon;
-    timeReceived.year = timeStruct->tm_year + 1900;
+    timeReceived.hour = timeStruct.tm_hour;
+    timeReceived.minute = timeStruct.tm_min;
+    timeReceived.second = timeStruct.tm_sec;
+    timeReceived.day = timeStruct.tm_mday;
+    timeReceived.month = timeStruct.tm_mon;
+    timeReceived.year = timeStruct.tm_year + 1900;
 
     std::unique_ptr<Streetpass::Message> message = std::make_unique<Streetpass::Message>(messageBuffer);
     message->MessageHeader().received = timeReceived;

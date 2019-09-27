@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 MBoxListTest::MBoxListTest(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 MBoxListTest::~MBoxListTest() {

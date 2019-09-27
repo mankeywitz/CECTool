@@ -24,7 +24,6 @@ CecOutbox::CecOutbox(u32 id, std::unique_ptr<BoxInfo> outboxInfo, std::unique_pt
 CecOutbox::CecOutbox(u32 id, std::unique_ptr<BoxInfo> outboxInfo, std::unique_ptr<OBIndex> outboxIndex,
     const std::vector<Message>& messages) : boxId(id), boxInfo(std::move(outboxInfo)),
     obIndex(std::move(outboxIndex)), messages(messages) {
-
 }
 
 CecOutbox::CecOutbox(u32 id) : boxId(id), messages() {

@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 ReadMessageWithHMAC::ReadMessageWithHMAC(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 ReadMessageWithHMAC::~ReadMessageWithHMAC() {

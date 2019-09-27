@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 GetCecdState::GetCecdState(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 GetCecdState::~GetCecdState() {

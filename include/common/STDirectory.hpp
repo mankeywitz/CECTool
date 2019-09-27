@@ -49,7 +49,7 @@ struct STDirectoryEntry {
 class STDirectory
 {
 public:
-    STDirectory(const std::string& root);
+    explicit STDirectory(const std::string& root);
     ~STDirectory(void) { };
 
     Result      error(void);

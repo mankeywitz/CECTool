@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 OBIndexTest::OBIndexTest(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 OBIndexTest::~OBIndexTest() {

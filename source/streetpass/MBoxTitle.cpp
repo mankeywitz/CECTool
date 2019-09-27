@@ -3,11 +3,9 @@
 namespace Streetpass {
 
 MBoxTitle::MBoxTitle() : titleData() {
-
 }
 
 MBoxTitle::MBoxTitle(const std::vector<u8>& buffer) : titleData(buffer) {
-    
 }
 
 std::vector<u8> MBoxTitle::data() const {

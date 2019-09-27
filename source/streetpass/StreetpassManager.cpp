@@ -452,6 +452,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
     in.seekg(0, in.beg);
     std::vector<u8> mboxInfoBuffer(mboxInfoSize);
     in.read(reinterpret_cast<char*>(mboxInfoBuffer.data()), mboxInfoSize);
+    if(!in) {
+        printf("Error reading MBoxInfo.\n");
+    }
     in.close();
 
     in.open(mboxExportPath + "MBoxData.001", std::ios::in | std::ios::binary);
@@ -460,6 +463,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
     in.seekg(0, in.beg);
     std::vector<u8> mboxIconBuffer(mboxIconSize);
     in.read(reinterpret_cast<char*>(mboxIconBuffer.data()), mboxIconSize);
+    if(!in) {
+        printf("Error reading MBoxData.001.\n");
+    }
     in.close();
 
     in.open(mboxExportPath + "MBoxData.010", std::ios::in | std::ios::binary);
@@ -468,6 +474,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
     in.seekg(0, in.beg);
     std::vector<u8> mboxTitleBuffer(mboxTitleSize);
     in.read(reinterpret_cast<char*>(mboxTitleBuffer.data()), mboxTitleSize);
+    if(!in) {
+        printf("Error reading MBoxData.010.\n");
+    }
     in.close();
 
     in.open(mboxExportPath + "MBoxData.050", std::ios::in | std::ios::binary);
@@ -476,6 +485,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
     in.seekg(0, in.beg);
     std::vector<u8> mboxProgramIdBuffer(mboxProgramIdSize);
     in.read(reinterpret_cast<char*>(mboxProgramIdBuffer.data()), mboxProgramIdSize);
+    if(!in) {
+        printf("Error reading MBoxData.050.\n");
+    }
     in.close();
 
     in.open(mboxExportInboxPath + "BoxInfo_____", std::ios::in | std::ios::binary);
@@ -484,6 +496,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
     in.seekg(0, in.beg);
     std::vector<u8> inboxInfoBuffer(inboxInfoSize);
     in.read(reinterpret_cast<char*>(inboxInfoBuffer.data()), inboxInfoSize);
+    if(!in) {
+        printf("Error reading Inbox BoxInfo.\n");
+    }
     in.close();
 
     // inbox messages
@@ -500,6 +515,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
 
             std::vector<u8> messageBuffer(messageSize);
             in.read(reinterpret_cast<char*>(messageBuffer.data()), messageSize);
+            if(!in) {
+                printf("Error reading inbox message.\n");
+            }
             in.close();
 
             inboxMessages.emplace_back(messageBuffer);
@@ -512,6 +530,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
     in.seekg(0, in.beg);
     std::vector<u8> outboxInfoBuffer(outboxInfoSize);
     in.read(reinterpret_cast<char*>(outboxInfoBuffer.data()), outboxInfoSize);
+    if(!in) {
+        printf("Error reading Outbox BoxInfo.\n");
+    }
     in.close();
 
     in.open(mboxExportOutboxPath + "OBIndex_____", std::ios::in | std::ios::binary);
@@ -520,6 +541,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
     in.seekg(0, in.beg);
     std::vector<u8> obIndexBuffer(obIndexSize);
     in.read(reinterpret_cast<char*>(obIndexBuffer.data()), obIndexSize);
+    if(!in) {
+        printf("Error reading OBIndex.\n");
+    }
     in.close();
 
     // outbox messages
@@ -536,6 +560,9 @@ Result StreetpassManager::ImportBox(const u32 boxId) {
             
             std::vector<u8> messageBuffer(messageSize);
             in.read(reinterpret_cast<char*>(messageBuffer.data()), messageSize);
+            if(!in) {
+                printf("Error reading outbox message.\n");
+            }
             in.close();
 
             outboxMessages.emplace_back(messageBuffer);

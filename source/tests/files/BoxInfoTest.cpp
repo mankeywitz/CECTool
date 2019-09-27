@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 BoxInfoTest::BoxInfoTest(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 BoxInfoTest::~BoxInfoTest() {

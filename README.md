@@ -7,7 +7,7 @@ Runs on the 3ds and in Citra.
 
 A 3dsx release is now available if you just want to try it out without compiling.
 
-### Cloning
+## Cloning
 `git clone --recursive https://github.com/NarcolepticK/CECTool.git`
 
 If there is an error about missing submodule files,
@@ -16,31 +16,31 @@ If there is an error about missing submodule files,
 
 `git submodule update --recursive`
 
-### Importing and Exporting Streetpasses
+## Importing and Exporting Streetpasses
 Exported Streetpasses are located on the Sd card in **/3ds/CECTool/export/streetpasses**. That directory contains a folder for each messagebox, based on the programId of the app, and inside there lies the messages exported.
 
 To import, copy the exported folder(s) into **/3ds/CECTool/import/streetpasses**. CECTool parses that directory for programIds and compares against the list of activated boxes, and displays only the available boxes to import. You then select which message you would like to import, and can do so up to the message limit for that box.
 
-### Main Menu:
+## Main Menu
 - #### Create
-  - Create from exported backup
+    - Create from exported backup
 - #### Delete
-  - Delete a box
-  - Delete all boxes
-  - Delete a Streetpass Message *Unimplemented*
-  - Delete all Streetpass Messages in a Box *Unimplemented*
+    - Delete a box
+    - Delete all boxes
+    - Delete a Streetpass Message *Unimplemented*
+    - Delete all Streetpass Messages in a Box *Unimplemented*
 - #### Export
-  - Export a box
-  - Export all boxes
-  - Export a Streetpass Message *Unimplemented*
-  - Export all Streetpass Messages
+    - Export a box
+    - Export all boxes
+    - Export a Streetpass Message *Unimplemented*
+    - Export all Streetpass Messages
 - #### Import
-  - Import a Box *Unimplemented*
-  - Import Streetpass Messages
+    - Import a Box *Unimplemented*
+    - Import Streetpass Messages
 - #### Open
-  - View & Explore *Partial*
+    - View & Explore *Partial*
 - #### Tests
-  - *Partial*
+    - *Partial*
 
 ### Notes
 Issues and suggestions are welcome. There are a large number of titles to test, and my sample size is small.

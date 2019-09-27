@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 GetChangeStateEventHandle::GetChangeStateEventHandle(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 GetChangeStateEventHandle::~GetChangeStateEventHandle() {

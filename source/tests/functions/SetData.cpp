@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 SetData::SetData(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 SetData::~SetData() {
