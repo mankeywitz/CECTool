@@ -1,5 +1,6 @@
 # CECTool
 [![CodeFactor](https://www.codefactor.io/repository/github/narcoleptick/cectool/badge)](https://www.codefactor.io/repository/github/narcoleptick/cectool)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/49467ccf5ca84320883eb6faa35a4e44)](https://www.codacy.com/manual/NarcolepticK/CECTool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NarcolepticK/CECTool&amp;utm_campaign=Badge_Grade)
 
 A Nintendo 3ds Streetpass Management Tool.
 
