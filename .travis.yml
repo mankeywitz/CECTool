@@ -1,0 +1,6 @@
+language: c++
+services: docker
+install:
+- docker pull devkitpro/devkitarm
+script:
+- docker run -v $TRAVIS_BUILD_DIR:/CECTool devkitpro/devkitarm /bin/bash -ex /CECTool/.travis/build.sh
