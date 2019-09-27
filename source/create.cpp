@@ -22,8 +22,8 @@ extern "C" {
 #include "3ds/services/cecd.h"
 }
 
-void displayCreateMenu(Streetpass::StreetpassManager& sm) {
-    consoleClear();
+void displayCreateMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
+    ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
     printf("\n\nCreate Menu\n\n");
@@ -32,8 +32,8 @@ void displayCreateMenu(Streetpass::StreetpassManager& sm) {
     printf("Press START for Main Menu\n\n");
 }
 
-void displayBackupSlotSelection(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum) {
-    consoleClear();
+void displayBackupSlotSelection(Screens& screens, Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum) {
+    ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
     printf("\n\nCreate Menu\n\n");
@@ -45,12 +45,14 @@ void displayBackupSlotSelection(Streetpass::StreetpassManager& sm, STDirectory& 
             printf("\n");
         }
     }
+    consoleSelect(&screens.bottom);
     printf("\n\nSlot Number: [%x]\n\n", slotNum);
 }
 
-void createMenu(Streetpass::StreetpassManager& sm) {
+void createMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
+    consoleSelect(&screens.bottom);
     u8 slotNum = 0;
-    displayCreateMenu(sm);
+    displayCreateMenu(screens, sm);
     u32 down = hidKeysDown();
     while (aptMainLoop() && !(down & KEY_START)) {
         down = hidKeysDown();
@@ -64,23 +66,28 @@ void createMenu(Streetpass::StreetpassManager& sm) {
             }
             std::unique_ptr<STDirectory> backupDirectory =
                 std::make_unique<STDirectory>("/3ds/CECTool/export/");
-            displayBackupSlotSelection(sm, *backupDirectory, slotNum);
+            auto streetpassesIndex = std::find(backupDirectory->mList.begin(), backupDirectory->mList.end(), "streetpasses");
+            if(streetpassesIndex != backupDirectory->mList.end()) {
+                backupDirectory->mList.erase(streetpassesIndex);
+            }
+
+            displayBackupSlotSelection(screens, sm, *backupDirectory, slotNum);
             while (aptMainLoop() && !(down & KEY_START)) {
                 down = hidKeysDown();
                 hidScanInput();
                 if (down & KEY_A) {
-                    createBoxFromBackup(sm, *backupDirectory, slotNum);
+                    createBoxFromBackup(screens, sm, *backupDirectory, slotNum);
                     waitForInput();
                     break;
                 } else if (down & KEY_DOWN) {
                     if (slotNum > 0) {
                         slotNum--;
-                        displayBackupSlotSelection(sm, *backupDirectory, slotNum);
+                        displayBackupSlotSelection(screens, sm, *backupDirectory, slotNum);
                     }
                 } else if (down & KEY_UP) {
                     if (slotNum < backupDirectory->count() - 1) {
                         slotNum++;
-                        displayBackupSlotSelection(sm, *backupDirectory, slotNum);
+                        displayBackupSlotSelection(screens, sm, *backupDirectory, slotNum);
                     }
                 }
             }
@@ -89,6 +96,7 @@ void createMenu(Streetpass::StreetpassManager& sm) {
     }
 }
 
-void createBoxFromBackup(Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum) {
+void createBoxFromBackup(Screens& screens, Streetpass::StreetpassManager& sm, STDirectory& backupDirectory, const u8 slotNum) {
+    consoleSelect(&screens.bottom);
     sm.ImportBox(std::stoul(backupDirectory.item(slotNum), nullptr, 16));
 }

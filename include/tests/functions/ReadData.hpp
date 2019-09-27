@@ -11,7 +11,6 @@ public:
 
     void RunTest() override;
 private:
-
 };
 
 } // namespace Tests

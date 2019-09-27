@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 GetEventLog::GetEventLog(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 GetEventLog::~GetEventLog() {

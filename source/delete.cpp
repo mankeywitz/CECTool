@@ -1,10 +1,9 @@
 #include <3ds.h>
 
-#include "common/util.hpp"
 #include "delete.hpp"
 
-void displayDeleteMenu(Streetpass::StreetpassManager& sm) {
-    consoleClear();
+void displayDeleteMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
+    ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
     printf("\n\nDelete Menu\n\n");
@@ -15,64 +14,66 @@ void displayDeleteMenu(Streetpass::StreetpassManager& sm) {
     printf("Press START for Main Menu\n\n");
 }
 
-void displayDeleteSlotSelection(Streetpass::StreetpassManager& sm, const u8 slotNum) {
-    consoleClear();
+void displayDeleteSlotSelection(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum) {
+    ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
     printf("\n\n");
     printf("Delete Menu\n\n");
     printf("[A] Select a Box to Delete\n\n");
     printf("Press START for Main Menu\n\n");
+    consoleSelect(&screens.bottom);
     printf("Slot Number: [%x]\n\n", slotNum);
 }
 
-void deleteMenu(Streetpass::StreetpassManager& sm) {
+void deleteMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     u8 slotNum = 0;
-    displayDeleteMenu(sm);
+    displayDeleteMenu(screens, sm);
     u32 down = hidKeysDown();
     while (aptMainLoop() && !(down & KEY_START)) {
         down = hidKeysDown();
         hidScanInput();
 
         if (down & KEY_A) {
-            displayDeleteSlotSelection(sm, slotNum);
+            displayDeleteSlotSelection(screens, sm, slotNum);
             while (aptMainLoop() && !(down & KEY_START)) {
                 down = hidKeysDown();
                 hidScanInput();
                 if (down & KEY_A) {
-                    deleteBox(sm, slotNum);
+                    deleteBox(screens, sm, slotNum);
                     waitForInput();
                     break;
                 } else if (down & KEY_DOWN) {
                     if (slotNum > 0) {
                         slotNum--;
-                        displayDeleteSlotSelection(sm, slotNum);
+                        displayDeleteSlotSelection(screens, sm, slotNum);
                     }
                 } else if (down & KEY_UP) {
                     if (slotNum < sm.BoxList().MaxNumberOfSlots() - 1) {
                         slotNum++;
-                        displayDeleteSlotSelection(sm, slotNum);
+                        displayDeleteSlotSelection(screens, sm, slotNum);
                     }
                 }
             }
             break;
         } else if (down & KEY_B) {
-            deleteAllBoxes(sm);
+            deleteAllBoxes(screens, sm);
             waitForInput();
             break;
         } else if (down & KEY_X) {
-            deleteStreetpassMessage(sm);
+            deleteStreetpassMessage(screens, sm);
             waitForInput();
             break;
         } else if (down & KEY_Y) {
-            deleteAllStreetpassMessages(sm);
+            deleteAllStreetpassMessages(screens, sm);
             waitForInput();
             break;
         }
     }
 }
 
-void deleteBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
+void deleteBox(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum) {
+    consoleSelect(&screens.bottom);
     printf("This will delete the box in slot [%x].\n", slotNum);
     printf("Are you sure?\n");
     printf("A: Yes\t B: No\n");
@@ -93,7 +94,8 @@ void deleteBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     }
 }
 
-void deleteAllBoxes(Streetpass::StreetpassManager& sm) {
+void deleteAllBoxes(Screens& screens, Streetpass::StreetpassManager& sm) {
+    consoleSelect(&screens.bottom);
     printf("This will delete all boxes.\n");
     printf("Are you sure?\n");
     printf("A: Yes\t B: No\n");
@@ -114,10 +116,12 @@ void deleteAllBoxes(Streetpass::StreetpassManager& sm) {
     }
 }
 
-void deleteStreetpassMessage(Streetpass::StreetpassManager& sm) {
+void deleteStreetpassMessage(Screens& screens, Streetpass::StreetpassManager& sm) {
+    consoleSelect(&screens.bottom);
     printf("Unimplemented.\n");
 }
 
-void deleteAllStreetpassMessages(Streetpass::StreetpassManager& sm) {
+void deleteAllStreetpassMessages(Screens& screens, Streetpass::StreetpassManager& sm) {
+    consoleSelect(&screens.bottom);
     printf("Unimplemented.\n");
 }

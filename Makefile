@@ -31,9 +31,9 @@ include $(DEVKITARM)/3ds_rules
 #     - icon.png
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
-APP_TITLE	:= 	CECTool
-APP_DESCRIPTION	:= 	A tool for managing StreetPass data
-APP_AUTHOR	:= 	piepie62
+APP_TITLE	:=  CECTool
+APP_DESCRIPTION := A Streetpass Management Tool
+APP_AUTHOR	:=  NarcolepticK
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
@@ -44,8 +44,8 @@ GFXBUILD	:=	$(BUILD)
 #ROMFS		:=	romfs
 #GFXBUILD	:=	$(ROMFS)/gfx
 
-SOURCES		+= source/common libctru-cecd/source libctru-cecd/source/3ds/services/ source/streetpass
-INCLUDES	+= include/common libctru-cecd/include libctru-cecd/include/3ds/services/ include/streetpass
+SOURCES		+= source/common libctru-cecd/source libctru-cecd/source/3ds/services/cec source/streetpass
+INCLUDES	+= include/common libctru-cecd/include libctru-cecd/include/3ds/services/cec include/streetpass
 
 SOURCES		+= source/tests source/tests/files source/tests/functions
 INCLUDES	+= include/tests include/tests/files include/tests/functions

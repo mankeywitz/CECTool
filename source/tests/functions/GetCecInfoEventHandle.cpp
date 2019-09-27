@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 GetCecInfoEventHandle::GetCecInfoEventHandle(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 GetCecInfoEventHandle::~GetCecInfoEventHandle() {
@@ -20,7 +19,7 @@ void GetCecInfoEventHandle::RunTest() {
     Result res;
     Handle handle = 0;
     
-    res = CECDU_GetCecInfoEventHandle(&handle);
+    res = cecdGetCecInfoEventHandle(&handle);
     log << "  result: " << std::hex << res << " handle: " << handle << std::endl;
 
     log << "Test Finished" << std::endl;

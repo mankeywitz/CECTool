@@ -1,13 +1,14 @@
 #pragma once
 
+#include "common/util.hpp"
 #include "streetpass/StreetpassManager.hpp"
 
-void displayExportMenu(Streetpass::StreetpassManager& sm);
-void displayExportSlotSelection(Streetpass::StreetpassManager& sm, const u8 slotNum);
-void exportMenu(Streetpass::StreetpassManager& sm);
+void displayExportMenu(Screens& screens, Streetpass::StreetpassManager& sm);
+void displayExportSlotSelection(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);
+void exportMenu(Screens& screens, Streetpass::StreetpassManager& sm);
 
-void exportAllBoxes(Streetpass::StreetpassManager& sm);
-void exportBox(Streetpass::StreetpassManager& sm, const u8 slotNum);
+void exportAllBoxes(Screens& screens, Streetpass::StreetpassManager& sm);
+void exportBox(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);
 
-void exportStreetpassMessage(Streetpass::StreetpassManager& sm, const u8 slotNum);
-void exportAllStreetpasses(Streetpass::StreetpassManager& sm);
+void exportStreetpassMessage(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);
+void exportAllStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm);

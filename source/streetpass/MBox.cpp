@@ -5,11 +5,9 @@
 namespace Streetpass {
 
 MBox::MBox(u32 id) : boxId(id), mboxInfoHeader() {
-
 }
 
 MBox::MBox(const std::string& id) : boxId(std::stoul(id, nullptr, 16)), mboxInfoHeader() {
-
 }
 
 MBox::MBox(const std::vector<u8>& buffer) : boxId(), mboxInfoHeader() {

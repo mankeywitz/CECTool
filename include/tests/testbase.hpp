@@ -14,7 +14,6 @@ public:
     std::fstream log;
     std::string logpath;
 private:
-
 };
 
 } // namespace Tests

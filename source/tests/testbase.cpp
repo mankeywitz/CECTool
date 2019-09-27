@@ -11,7 +11,6 @@ TestBase::~TestBase() {
 }
 
 void TestBase::RunTest() {
-
 }
 
 } // namespace Tests

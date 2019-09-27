@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 ReadData::ReadData(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 ReadData::~ReadData() {

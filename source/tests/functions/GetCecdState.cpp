@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 GetCecdState::GetCecdState(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 GetCecdState::~GetCecdState() {
@@ -20,7 +19,7 @@ void GetCecdState::RunTest() {
     Result res;
     u32 state = 0;
     
-    res = CECDU_GetCecdState(&state);
+    res = cecdGetCecdState(&state);
     log << "  result: " << std::hex << res << " state: " << state << std::endl;
 
     log << "Test Finished" << std::endl;

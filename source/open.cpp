@@ -6,43 +6,44 @@
 #include "open.hpp"
 #include "streetpass/MBox.hpp"
 
-void displayOpenMenu(Streetpass::StreetpassManager& sm, const u8 slotNum) {
-    consoleClear();
+void displayOpenMenu(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum) {
+    ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
     printf("\n\nOpen Menu\n\n");
     printf("[A] Select a Box to Open\n\n");
     printf("Press START for Main Menu\n\n");
+    consoleSelect(&screens.bottom);
     printf("Slot Number: [%x]\n\n", slotNum);
 }
 
-void openMenu(Streetpass::StreetpassManager& sm) {
+void openMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     u8 slotNum = 0;
     u32 down = hidKeysDown();
-    displayOpenMenu(sm, slotNum);
+    displayOpenMenu(screens, sm, slotNum);
     while (aptMainLoop() && !(down & KEY_START)) {
         down = hidKeysDown();
         hidScanInput();
 
         if (down & KEY_A) {
-            openBox(sm, slotNum);
+            openBox(screens, sm, slotNum);
             waitForInput();
             break;
         } else if (down & KEY_DOWN) {
             if (slotNum > 0) {
                 slotNum--;
-                displayOpenMenu(sm, slotNum);
+                displayOpenMenu(screens, sm, slotNum);
             }
         } else if (down & KEY_UP) {
             if (slotNum < sm.BoxList().MaxNumberOfSlots() - 1) {
                 slotNum++;
-                displayOpenMenu(sm, slotNum);
+                displayOpenMenu(screens, sm, slotNum);
             }
         }
     }
 }
 
-void openBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
+void openBox(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum) {
     const std::string boxName = sm.BoxList().BoxNames()[slotNum];
     std::shared_ptr<Streetpass::MBox> mbox = sm.OpenBox(slotNum);
 
@@ -52,7 +53,7 @@ void openBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
     //const std::string mboxOutboxPath = mboxPath + "OutBox__/";
 
     if (mbox) {
-        consoleClear();
+        ClearScreen(&screens.bottom);
         printf("[%x] Box Id: %s\n\n", slotNum, boxName.c_str());
         printf("%s\n", mboxPath.c_str());
         printf("  InBox___/\n");
@@ -70,5 +71,6 @@ void openBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
 
         printf("[Hex Dump of MBoxData.050]\n");
         sm.HexDump(mbox->BoxProgramId().data());
+        consoleSelect(&screens.top);
     }
 }

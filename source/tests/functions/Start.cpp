@@ -7,7 +7,6 @@ extern "C" {
 namespace Tests {
 
 Start::Start(const std::string& filepath) : TestBase(filepath) {
-
 }
 
 Start::~Start() {

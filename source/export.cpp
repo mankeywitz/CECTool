@@ -3,7 +3,6 @@
 #include <sys/stat.h>
 
 #include "common/base64.hpp"
-#include "common/util.hpp"
 #include "export.hpp"
 #include "streetpass/MBox.hpp"
 
@@ -11,8 +10,8 @@ extern "C" {
 #include "3ds/services/cecd.h"
 }
 
-void displayExportMenu(Streetpass::StreetpassManager& sm) {
-    consoleClear();
+void displayExportMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
+    ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
     printf("\n\nExport Menu\n\n");
@@ -23,78 +22,85 @@ void displayExportMenu(Streetpass::StreetpassManager& sm) {
     printf("Press START for Main Menu\n\n");
 }
 
-void displayExportSlotSelection(Streetpass::StreetpassManager& sm, const u8 slotNum) {
-    consoleClear();
+void displayExportSlotSelection(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum) {
+    ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
     printf("\n\nExport Menu\n\n");
     printf("[A] Select a Box to Export\n\n");
     printf("Press START for Main Menu\n\n");
+    consoleSelect(&screens.bottom);
     printf("Slot Number: [%x]\n\n", slotNum);
 }
 
-void exportMenu(Streetpass::StreetpassManager& sm) {
+void exportMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
+    consoleSelect(&screens.bottom);
     u8 slotNum = 0;
-    displayExportMenu(sm);
+    displayExportMenu(screens, sm);
     u32 down = hidKeysDown();
     while (aptMainLoop() && !(down & KEY_START)) {
         down = hidKeysDown();
         hidScanInput();
 
         if (down & KEY_A) {
-            displayExportSlotSelection(sm, slotNum);
+            displayExportSlotSelection(screens, sm, slotNum);
             while (aptMainLoop() && !(down & KEY_START)) {
                 down = hidKeysDown();
                 hidScanInput();
                 if (down & KEY_A) {
-                    exportBox(sm, slotNum);
+                    exportBox(screens, sm, slotNum);
                     waitForInput();
                     break;
                 } else if (down & KEY_DOWN) {
                     if (slotNum > 0) {
                         slotNum--;
-                        displayExportSlotSelection(sm, slotNum);
+                        displayExportSlotSelection(screens, sm, slotNum);
                     }
                 } else if (down & KEY_UP) {
                     if (slotNum < sm.BoxList().MaxNumberOfSlots() - 1) {
                         slotNum++;
-                        displayExportSlotSelection(sm, slotNum);
+                        displayExportSlotSelection(screens, sm, slotNum);
                     }
                 }
             }
             break;
         } else if (down & KEY_B) {
-            exportAllBoxes(sm);
+            exportAllBoxes(screens, sm);
             waitForInput();
             break;
         } else if (down & KEY_X) {
-            exportStreetpassMessage(sm, 0);
+            exportStreetpassMessage(screens, sm, 0);
             waitForInput();
             break;
         } else if (down & KEY_Y) {
-            exportAllStreetpasses(sm);
+            exportAllStreetpasses(screens, sm);
             waitForInput();
             break;
         }
     }
 }
 
-void exportAllBoxes(Streetpass::StreetpassManager& sm) {
+void exportAllBoxes(Screens& screens, Streetpass::StreetpassManager& sm) {
+    consoleSelect(&screens.bottom);
     for (u8 slotNum = 0; slotNum < sm.BoxList().MaxNumberOfSlots(); slotNum++) {
-        exportBox(sm, slotNum);
+        exportBox(screens, sm, slotNum);
     }
     printf("All boxes exported.\n");
 }
 
-void exportBox(Streetpass::StreetpassManager& sm, const u8 slotNum) {
+void exportBox(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum) {
+    consoleSelect(&screens.bottom);
     sm.BackupBox(slotNum);
+    printf("Box exported.\n");
 }
 
-void exportStreetpassMessage(Streetpass::StreetpassManager& sm, const u8 slotNum) {
+void exportStreetpassMessage(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum) {
+    consoleSelect(&screens.bottom);
     printf("Unimplemented.\n");
 }
 
-void exportAllStreetpasses(Streetpass::StreetpassManager& sm) {
+void exportAllStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm) {
+    consoleSelect(&screens.bottom);
     for (u8 slotNum = 0; slotNum < sm.BoxList().MaxNumberOfSlots(); slotNum++) {
         sm.ExportStreetpasses(slotNum);
     }
