@@ -22,25 +22,25 @@ Exported Streetpasses are located on the Sd card in **/3ds/CECTool/export/street
 To import, copy the exported folder(s) into **/3ds/CECTool/import/streetpasses**. CECTool parses that directory for programIds and compares against the list of activated boxes, and displays only the available boxes to import. You then select which message you would like to import, and can do so up to the message limit for that box.
 
 ## Main Menu
-- ### Create
-    - Create from exported backup
-- ### Delete
-    - Delete a box
-    - Delete all boxes
-    - Delete a Streetpass Message *Unimplemented*
-    - Delete all Streetpass Messages in a Box *Unimplemented*
-- ### Export
-    - Export a box
-    - Export all boxes
-    - Export a Streetpass Message *Unimplemented*
-    - Export all Streetpass Messages
-- ### Import
-    - Import a Box *Unimplemented*
-    - Import Streetpass Messages
-- ### Open
-    - View & Explore *Partial*
-- ### Tests
-    - *Partial*
+### Create
+  - Create from exported backup
+### Delete
+  - Delete a box
+  - Delete all boxes
+  - Delete a Streetpass Message *Unimplemented*
+  - Delete all Streetpass Messages in a Box *Unimplemented*
+### Export
+  - Export a box
+  - Export all boxes
+  - Export a Streetpass Message *Unimplemented*
+  - Export all Streetpass Messages
+### Import
+  - Import a Box *Unimplemented*
+  - Import Streetpass Messages
+### Open
+  - View & Explore *Partial*
+### Tests
+  - *Partial*
 
 ### Notes
 Issues and suggestions are welcome. There are a large number of titles to test, and my sample size is small.
