@@ -42,12 +42,6 @@ Result init(Screens& screens) {
         return ret;
     }
 
-    sdmcInit();
-    if (R_FAILED(ret)) {
-        printf("Sdmc Init Failed: %lX\n", ret);
-        return ret;
-    }
-
     ret = cecduInit();
     if (R_FAILED(ret)) {
         printf("Cecdu Init Failed: %lX\n", ret);

@@ -8,7 +8,7 @@ CecOutbox::CecOutbox(u32 id, std::unique_ptr<BoxInfo> outboxInfo, std::unique_pt
         for (auto messageHeader : boxInfo->MessageHeaders()) {
             const u32 messageSize = messageHeader.messageSize;
             std::vector<u8> messageBuffer(messageSize);
-            Result res = cecdReadMessage(boxId, false, messageHeader.messageId, sizeof(CecMessageId), nullptr,
+            Result res = cecdReadMessage(boxId, true, messageHeader.messageId, sizeof(CecMessageId), nullptr,
                                          messageBuffer.data(), messageSize);
             if (R_FAILED(res)) {
                 printf("Outbox ReadMessage failed: %lX\n", res);
