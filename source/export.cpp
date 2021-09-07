@@ -37,16 +37,19 @@ void exportMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     consoleSelect(&screens.bottom);
     u8 slotNum = 0;
     displayExportMenu(screens, sm);
-    u32 down = hidKeysDown();
-    while (aptMainLoop() && !(down & KEY_START)) {
-        down = hidKeysDown();
+    while (aptMainLoop()) {
+        gspWaitForVBlank();
+        gfxSwapBuffers();
         hidScanInput();
+        u32 down = hidKeysDown();
 
         if (down & KEY_A) {
             displayExportSlotSelection(screens, sm, slotNum);
-            while (aptMainLoop() && !(down & KEY_START)) {
-                down = hidKeysDown();
+            while (aptMainLoop()) {
+                gspWaitForVBlank();
+                gfxSwapBuffers();
                 hidScanInput();
+                down = hidKeysDown();
                 if (down & KEY_A) {
                     exportBox(screens, sm, slotNum);
                     waitForInput();
@@ -61,6 +64,8 @@ void exportMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
                         slotNum++;
                         displayExportSlotSelection(screens, sm, slotNum);
                     }
+                } else if (down & KEY_START) {
+                    break;
                 }
             }
             break;
@@ -75,6 +80,8 @@ void exportMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
         } else if (down & KEY_Y) {
             exportAllStreetpasses(screens, sm);
             waitForInput();
+            break;
+        } else if (down & KEY_START) {
             break;
         }
     }
@@ -101,6 +108,7 @@ void exportStreetpassMessage(Screens& screens, Streetpass::StreetpassManager& sm
 
 void exportAllStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm) {
     consoleSelect(&screens.bottom);
+    printf("Exporting all streetpasses...\n");
     for (u8 slotNum = 0; slotNum < sm.BoxList().MaxNumberOfSlots(); slotNum++) {
         sm.ExportStreetpasses(slotNum);
     }

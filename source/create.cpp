@@ -53,10 +53,12 @@ void createMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     consoleSelect(&screens.bottom);
     u8 slotNum = 0;
     displayCreateMenu(screens, sm);
-    u32 down = hidKeysDown();
-    while (aptMainLoop() && !(down & KEY_START)) {
-        down = hidKeysDown();
+    
+    while (aptMainLoop()) {
+        gspWaitForVBlank();
+        gfxSwapBuffers();
         hidScanInput();
+        u32 down = hidKeysDown();
 
         if(down & KEY_A) {
             if(sm.BoxList().NumberOfSlotsUsed() >= sm.BoxList().MaxNumberOfSlots()) {
@@ -72,9 +74,12 @@ void createMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
             }
 
             displayBackupSlotSelection(screens, sm, *backupDirectory, slotNum);
-            while (aptMainLoop() && !(down & KEY_START)) {
-                down = hidKeysDown();
+            while (aptMainLoop()) {
+                gspWaitForVBlank();
+                gfxSwapBuffers();
                 hidScanInput();
+                down = hidKeysDown();
+
                 if (down & KEY_A) {
                     createBoxFromBackup(screens, sm, *backupDirectory, slotNum);
                     waitForInput();
@@ -89,8 +94,12 @@ void createMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
                         slotNum++;
                         displayBackupSlotSelection(screens, sm, *backupDirectory, slotNum);
                     }
+                } else if (down & KEY_START) {
+                    break;
                 }
             }
+            break;
+        } else if(down & KEY_START) {
             break;
         }
     }

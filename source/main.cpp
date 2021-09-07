@@ -65,9 +65,7 @@ int main(void) {
     std::unique_ptr<StreetpassManager> sm = std::make_unique<StreetpassManager>();
     // Main menu loop; Start to exit
     bool showMenu = true;
-    hidScanInput();
-    u32 down = hidKeysDown();
-    while (aptMainLoop() && !(down & KEY_START)) {
+    while (aptMainLoop()) {
         if (showMenu) {
             ClearScreens(screens);
             printf("CECTool\n\n");
@@ -84,8 +82,11 @@ int main(void) {
             printf("\nPress START to exit\n");
             showMenu = false;
         }
-        down = hidKeysDown();
+        
+        gspWaitForVBlank();
+        gfxSwapBuffers();
         hidScanInput();
+        u32 down = hidKeysDown();
 
         if (down & KEY_A) {
             createMenu(screens, *sm);
@@ -116,6 +117,8 @@ int main(void) {
 
             waitForInput();
             showMenu = true;
+        } else if (down & KEY_START) {
+            break;
         }
     }
     shutdown();

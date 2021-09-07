@@ -19,11 +19,12 @@ void displayOpenMenu(Screens& screens, Streetpass::StreetpassManager& sm, const 
 
 void openMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     u8 slotNum = 0;
-    u32 down = hidKeysDown();
     displayOpenMenu(screens, sm, slotNum);
-    while (aptMainLoop() && !(down & KEY_START)) {
-        down = hidKeysDown();
+    while (aptMainLoop()) {
+        gspWaitForVBlank();
+        gfxSwapBuffers();
         hidScanInput();
+        u32 down = hidKeysDown();
 
         if (down & KEY_A) {
             openBox(screens, sm, slotNum);
@@ -39,6 +40,8 @@ void openMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
                 slotNum++;
                 displayOpenMenu(screens, sm, slotNum);
             }
+        } else if (down & KEY_START) {
+            break;
         }
     }
 }

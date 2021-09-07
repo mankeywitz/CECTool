@@ -29,16 +29,20 @@ void displayDeleteSlotSelection(Screens& screens, Streetpass::StreetpassManager&
 void deleteMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     u8 slotNum = 0;
     displayDeleteMenu(screens, sm);
-    u32 down = hidKeysDown();
-    while (aptMainLoop() && !(down & KEY_START)) {
-        down = hidKeysDown();
+    while (aptMainLoop()) {
+        gspWaitForVBlank();
+        gfxSwapBuffers();
         hidScanInput();
+        u32 down = hidKeysDown();
 
         if (down & KEY_A) {
             displayDeleteSlotSelection(screens, sm, slotNum);
-            while (aptMainLoop() && !(down & KEY_START)) {
-                down = hidKeysDown();
+            while (aptMainLoop()) {
+                gspWaitForVBlank();
+                gfxSwapBuffers();
                 hidScanInput();
+                down = hidKeysDown();
+
                 if (down & KEY_A) {
                     deleteBox(screens, sm, slotNum);
                     waitForInput();
@@ -53,6 +57,8 @@ void deleteMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
                         slotNum++;
                         displayDeleteSlotSelection(screens, sm, slotNum);
                     }
+                } else if (down & KEY_START) {
+                    break;
                 }
             }
             break;
@@ -67,6 +73,8 @@ void deleteMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
         } else if (down & KEY_Y) {
             deleteAllStreetpassMessages(screens, sm);
             waitForInput();
+            break;
+        } else if (down & KEY_START) {
             break;
         }
     }

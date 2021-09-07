@@ -60,11 +60,12 @@ void displayImportStreetpassSelection(Screens& screens, Streetpass::StreetpassMa
 void importMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     consoleSelect(&screens.bottom);
     u8 slotNum = 0;
-    u32 down = hidKeysDown();
     displayImportMenu(screens, sm);
-    while (aptMainLoop() && !(down & KEY_START)) {
-        down = hidKeysDown();
+    while (aptMainLoop()) {
+        gspWaitForVBlank();
+        gfxSwapBuffers();
         hidScanInput();
+        u32 down = hidKeysDown();
 
         if (down & KEY_A) {
             importBox(screens, sm, slotNum);
@@ -87,9 +88,12 @@ void importMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
             u32 numOfStreetpasses = importDirectory->count();
 
             displayImportStreetpassBoxSelection(screens, sm, slotNum, numOfStreetpasses);
-            while (aptMainLoop() && !(down & KEY_START)) {
-                down = hidKeysDown();
+            while (aptMainLoop()) {
+                gspWaitForVBlank();
+                gfxSwapBuffers();
                 hidScanInput();
+                down = hidKeysDown();
+
                 if (down & KEY_A) {
                     importStreetpassMenu(screens, sm, slotNum, *importDirectory, importPath);
                     break;
@@ -109,8 +113,12 @@ void importMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
                         numOfStreetpasses = importDirectory->count();
                         displayImportStreetpassBoxSelection(screens, sm, slotNum, numOfStreetpasses);
                     }
+                } else if (down & KEY_START) {
+                    break;
                 }
             }
+            break;
+        } else if (down & KEY_START) {
             break;
         }
     }
@@ -125,11 +133,12 @@ void importStreetpassMenu(Screens& screens, Streetpass::StreetpassManager& sm, c
         const u32 streetpassesAvailable = importDirectory.count();
         u32 streetpassIndex = 0;
 
-        u32 down = hidKeysDown();
         displayImportStreetpassSelection(screens, sm, slotNum, inboxCount, inboxLimit, importDirectory.item(streetpassIndex));
-        while (aptMainLoop() && !(down & KEY_START)) {
-            down = hidKeysDown();
+        while (aptMainLoop()) {
+            gspWaitForVBlank();
+            gfxSwapBuffers();
             hidScanInput();
+            u32 down = hidKeysDown();
             if (down & KEY_A) {
                 if (inboxCount < inboxLimit) {
                     importStreetpasses(screens, sm, *mbox, importPath, importDirectory.item(streetpassIndex));
@@ -156,6 +165,8 @@ void importStreetpassMenu(Screens& screens, Streetpass::StreetpassManager& sm, c
 
                     displayImportStreetpassSelection(screens, sm, slotNum, inboxCount, inboxLimit, importDirectory.item(streetpassIndex));
                 }
+            } else if (down & KEY_START) {
+                break;
             }
         }
     }
