@@ -47,9 +47,6 @@ GFXBUILD	:=	$(BUILD)
 SOURCES		+= source/common libctru-cecd/source libctru-cecd/source/3ds/services/cec source/streetpass
 INCLUDES	+= include/common libctru-cecd/include libctru-cecd/include/3ds/services/cec include/streetpass
 
-SOURCES		+= source/tests source/tests/files source/tests/functions
-INCLUDES	+= include/tests include/tests/files include/tests/functions
-
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -59,7 +56,7 @@ CFLAGS	:=	-g -Wall -O2 -mword-relocations \
 			-fomit-frame-pointer -ffunction-sections -Wno-psabi \
 			$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS
+CFLAGS	+=	$(INCLUDE) -D__3DS__
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=c++17
 

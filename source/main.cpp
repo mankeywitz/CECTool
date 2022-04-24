@@ -9,7 +9,6 @@
 #include "import.hpp"
 #include "open.hpp"
 #include "streetpass/StreetpassManager.hpp"
-#include "tests/tests.hpp"
 
 extern "C" {
 #include "3ds/services/cecd.h"
@@ -77,7 +76,6 @@ int main(void) {
             printf("[X] Export\n");
             printf("[Y] Import\n");
             printf("[L] Open\n");
-            printf("[R] Tests\n");
 
             printf("\nPress START to exit\n");
             showMenu = false;
@@ -106,15 +104,6 @@ int main(void) {
             showMenu = true;
         } else if (down & KEY_L) {
             openMenu(screens, *sm);
-            waitForInput();
-            showMenu = true;
-        } else if (down & KEY_R) {
-            consoleSelect(&screens.bottom);
-            printf("Testing...\n");
-            Tests::RunAllTests();
-            printf("Done!\n");
-            consoleSelect(&screens.top);
-
             waitForInput();
             showMenu = true;
         } else if (down & KEY_START) {
