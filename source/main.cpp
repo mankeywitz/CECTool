@@ -2,6 +2,7 @@
 #include <memory>
 #include <sys/stat.h>
 
+#include "common/http.hpp"
 #include "common/util.hpp"
 #include "create.hpp"
 #include "delete.hpp"
@@ -17,6 +18,9 @@ extern "C" {
 using Streetpass::StreetpassManager;
 
 int __stacksize__ = 64 * 1024;
+
+const int HTTP_BUFFER_SIZE = 4 * 1024 * 1024;
+const std::string SERVER_URL = "http://192.168.1.247:8000";
 
 void cecToolDirectoryCheck(void) {
     mkdir("/3ds/CECTool", 777);
@@ -44,11 +48,18 @@ Result init(Screens& screens) {
     ret = cecduInit();
     if (R_FAILED(ret)) {
         printf("Cecdu Init Failed: %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcInit( HTTP_BUFFER_SIZE );
+    if (R_FAILED(ret)) {
+        printf("HTTP Init Failed: %lX\n", ret);
     }
     return ret;
 }
 
 void shutdown(void) {
+    httpcExit();
     cecduExit();
 }
 
@@ -76,6 +87,7 @@ int main(void) {
             printf("[X] Export\n");
             printf("[Y] Import\n");
             printf("[L] Open\n");
+            printf("[R] Test Server\n");
 
             printf("\nPress START to exit\n");
             showMenu = false;
@@ -104,6 +116,10 @@ int main(void) {
             showMenu = true;
         } else if (down & KEY_L) {
             openMenu(screens, *sm);
+            waitForInput();
+            showMenu = true;
+        } else if (down & KEY_R) {
+            pingServer(SERVER_URL);
             waitForInput();
             showMenu = true;
         } else if (down & KEY_START) {
