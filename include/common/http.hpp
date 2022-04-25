@@ -3,4 +3,5 @@
 #include <3ds.h>
 #include <string>
 
-Result pingServer(const std::string url);
+Result verifyServer(const std::string rootUrl, const std::string expectedVersion);
+Result downloadMessage(const std::string rootUrl, const std::string titleId);
