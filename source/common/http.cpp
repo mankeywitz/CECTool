@@ -170,3 +170,89 @@ Result downloadMessage(const std::string rootUrl, const std::string titleId) {
 
     return ret;
 }
+
+Result uploadMessage(const std::string rootUrl, const std::string titleId, const u64 consoleHash) {
+    char hash_str[16];
+    snprintf(hash_str, 16, "%llx", consoleHash);
+    const std::string url = rootUrl + hash_str + "/" + titleId + "/upload";
+    const std::string uploadFilePath = "/3ds/CECTool/export/streetpasses/" + titleId + "/outbox/BWFNIY+tdOkA=";
+    std::ifstream uploadFile(uploadFilePath, std::ios::in | std::ios::binary);
+    Result ret = 0;
+    httpcContext context;
+    u32 statuscode = 0;
+
+    uploadFile.seekg(0, uploadFile.end);
+    int fSize = uploadFile.tellg();
+    uploadFile.seekg(0, uploadFile.beg);
+
+    char * uploadBuffer = new char [fSize];
+
+    uploadFile.read(uploadBuffer, fSize);
+    uploadFile.close();
+
+    printf("Done reading file\n");
+
+    printf("Pinging HTTP Server\n");
+    printf("%s\n", url.c_str());
+
+    ret = httpcOpenContext(&context, HTTPC_METHOD_POST, url.c_str(), 0);
+    if(R_FAILED(ret)) {
+        printf("Context creation failed %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcSetSSLOpt(&context, SSLCOPT_DisableVerify);
+    if(R_FAILED(ret)) {
+        printf("Disable SSL verify failed %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcSetKeepAlive(&context, HTTPC_KEEPALIVE_ENABLED);
+    if(R_FAILED(ret)) {
+        printf("Set keep-alive failed %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcAddRequestHeaderField(&context, "User-Agent", "streetpass-client/1.0.0");
+    if(R_FAILED(ret)) {
+        printf("User Agent Header failed %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcAddRequestHeaderField(&context, "Connection", "Keep-Alive");
+    if(R_FAILED(ret)) {
+        printf("Keep Alive Header failed %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcAddPostDataRaw(&context, (const u32*)uploadBuffer, fSize);
+    if(R_FAILED(ret)) {
+        printf("Adding post data failed %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcBeginRequest(&context);
+    if(R_FAILED(ret)) {
+        printf("Begin request failed %lX\n", ret);
+        httpcCloseContext(&context);
+        return ret;
+    }
+
+    ret = httpcGetResponseStatusCode(&context, &statuscode);
+    if(R_FAILED(ret)) {
+        printf("Getting status code failed %lX\n", ret);
+        printf("%i", RD_TIMEOUT);
+        httpcCloseContext(&context);
+        return ret;
+    }
+
+    printf("Status Code is %lu\n", statuscode);
+
+    httpcCloseContext(&context);
+
+    printf("Upload completed.\n");
+
+    delete[] uploadBuffer;
+
+    return ret;
+}

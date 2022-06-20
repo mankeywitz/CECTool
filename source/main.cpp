@@ -137,6 +137,9 @@ int main(void) {
             verifyServer(SERVER_ROOT_URL, SERVER_VERSION);
             downloadMessage(SERVER_ROOT_URL, "00020800");
             waitForInput();
+
+            uploadMessage(SERVER_ROOT_URL, "00020800", hash);
+            waitForInput();
             showMenu = true;
         } else if (down & KEY_START) {
             break;
