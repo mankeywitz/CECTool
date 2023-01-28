@@ -21,7 +21,7 @@ int __stacksize__ = 64 * 1024;
 
 const int HTTP_BUFFER_SIZE = 4 * 1024 * 1024;
 const std::string SERVER_VERSION = "0.1.0";
-const std::string SERVER_ROOT_URL = "http://192.168.1.247:8000/";
+const std::string SERVER_ROOT_URL = "http://192.168.50.244:8000/";
 const u32 APP_ID_SALT = 0xD00D;
 
 void cecToolDirectoryCheck(void) {
@@ -96,11 +96,8 @@ int main(void) {
             sm->ListBoxes();
             printf("\n\nMain Menu\n\n");
 
-            printf("[A] Create\n");
-            printf("[B] Delete\n");
-            printf("[X] Export\n");
+            printf("[X] Export and Upload\n");
             printf("[Y] Import\n");
-            printf("[L] Open\n");
             printf("[R] Test Server\n");
 
             printf("\nPress START to exit\n");
@@ -113,24 +110,13 @@ int main(void) {
         hidScanInput();
         u32 down = hidKeysDown();
 
-        if (down & KEY_A) {
-            createMenu(screens, *sm);
-            waitForInput();
-            showMenu = true;
-        } else if (down & KEY_B) {
-            deleteMenu(screens, *sm);
-            waitForInput();
-            showMenu = true;
-        } else if (down & KEY_X) {
-            exportMenu(screens, *sm);
+        if (down & KEY_X) {
+            exportAllStreetpasses(screens, *sm);
+            uploadAllMessages(SERVER_ROOT_URL, hash, *sm);
             waitForInput();
             showMenu = true;
         } else if (down & KEY_Y) {
             importMenu(screens, *sm);
-            waitForInput();
-            showMenu = true;
-        } else if (down & KEY_L) {
-            openMenu(screens, *sm);
             waitForInput();
             showMenu = true;
         } else if (down & KEY_R) {
@@ -138,7 +124,7 @@ int main(void) {
             downloadMessage(SERVER_ROOT_URL, "00020800");
             waitForInput();
 
-            uploadMessage(SERVER_ROOT_URL, "00020800", hash);
+            //uploadMessage(SERVER_ROOT_URL, "00020800", hash);
             waitForInput();
             showMenu = true;
         } else if (down & KEY_START) {

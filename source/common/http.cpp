@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 
 #include "common/http.hpp"
+#include "common/STDirectory.hpp"
 
 const u64 TIMEOUT = 5000000000;
 
@@ -167,15 +168,16 @@ Result downloadMessage(const std::string rootUrl, const std::string titleId) {
     out.close();
 
     printf("File saved.\n");
+    free(buffer);
 
     return ret;
 }
 
-Result uploadMessage(const std::string rootUrl, const std::string titleId, const u64 consoleHash) {
+Result uploadMessage(const std::string rootUrl, const std::string titleId, const std::string fileName, const u64 consoleHash) {
     char hash_str[16];
     snprintf(hash_str, 16, "%llx", consoleHash);
-    const std::string url = rootUrl + hash_str + "/" + titleId + "/upload";
-    const std::string uploadFilePath = "/3ds/CECTool/export/streetpasses/" + titleId + "/outbox/BWFNIY+tdOkA=";
+    const std::string url = rootUrl + titleId + "/upload/" + fileName;
+    const std::string uploadFilePath = "/3ds/CECTool/export/streetpasses/" + titleId + "/outbox/" + fileName;
     std::ifstream uploadFile(uploadFilePath, std::ios::in | std::ios::binary);
     Result ret = 0;
     httpcContext context;
@@ -225,6 +227,12 @@ Result uploadMessage(const std::string rootUrl, const std::string titleId, const
         return ret;
     }
 
+    ret = httpcAddRequestHeaderField(&context, "3ds-id", hash_str);
+    if(R_FAILED(ret)) {
+        printf("3ds ID header failed %lX\n", ret);
+        return ret;
+    }
+
     ret = httpcAddPostDataRaw(&context, (const u32*)uploadBuffer, fSize);
     if(R_FAILED(ret)) {
         printf("Adding post data failed %lX\n", ret);
@@ -255,4 +263,31 @@ Result uploadMessage(const std::string rootUrl, const std::string titleId, const
     delete[] uploadBuffer;
 
     return ret;
+}
+
+Result uploadAllMessages(const std::string rootUrl, const u64 consoleHash, Streetpass::StreetpassManager& sm) {
+    printf("Uploading messages...\n");
+    const std::string rootFilePath = "/3ds/CECTool/export/streetpasses/";
+
+    const std::vector<std::string> boxNames = sm.BoxList().BoxNames();
+    
+    for(u32 i = 0; i < sm.BoxList().NumberOfSlotsUsed(); i++) {
+        printf("Processing %s \n", boxNames[i].c_str());
+
+        const std::string uploadFolderPath = rootFilePath + boxNames[i] + "/outbox/";
+
+        std::unique_ptr<STDirectory> uploadFolder =
+                std::make_unique<STDirectory>(uploadFolderPath);
+
+        const size_t numFiles = uploadFolder->count();
+
+        for (size_t j = 0; j < numFiles; j++) {
+            const std::string fileName = uploadFolder->item(j);
+
+            printf("Uploading %s \n", fileName.c_str());
+
+            uploadMessage(rootUrl, boxNames[i], fileName, consoleHash);
+        }
+    }
+    return 0;
 }
