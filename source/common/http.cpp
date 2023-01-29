@@ -89,7 +89,7 @@ Result verifyServer(const std::string rootUrl, const std::string expectedVersion
     return ret;
 }
 
-Result downloadMessage(const std::string rootUrl, const std::string titleId) {
+Result downloadMessage(const std::string rootUrl, const std::string titleId, const u64 consoleHash) {
     const u32 BUFSIZE = 0x100000;
     const std::string url = rootUrl + titleId + "/download";
     const std::string downloadDir = "/3ds/CECTool/import/streetpasses/" + titleId;
@@ -98,6 +98,8 @@ Result downloadMessage(const std::string rootUrl, const std::string titleId) {
     u32 statuscode = 0;
     u8* buffer = (u8*)malloc(BUFSIZE);
     u32 returnedSize = 0;
+    char hash_str[16];
+    snprintf(hash_str, 16, "%llx", consoleHash);
 
 
     printf("Pinging HTTP Server\n");
@@ -132,6 +134,12 @@ Result downloadMessage(const std::string rootUrl, const std::string titleId) {
     ret = httpcAddRequestHeaderField(&context, "Connection", "Keep-Alive");
     if(R_FAILED(ret)) {
         printf("Keep Alive Header failed %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcAddRequestHeaderField(&context, "3ds-id", hash_str);
+    if(R_FAILED(ret)) {
+        printf("3ds ID header failed %lX\n", ret);
         return ret;
     }
 

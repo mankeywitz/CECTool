@@ -121,7 +121,7 @@ int main(void) {
             showMenu = true;
         } else if (down & KEY_R) {
             verifyServer(SERVER_ROOT_URL, SERVER_VERSION);
-            downloadMessage(SERVER_ROOT_URL, "00020800");
+            downloadMessage(SERVER_ROOT_URL, "00020800", hash);
             waitForInput();
 
             //uploadMessage(SERVER_ROOT_URL, "00020800", hash);
