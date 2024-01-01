@@ -28,6 +28,8 @@ public:
     Result ImportBox(const u32 boxId);
     void ImportStreetpasses(const u32 boxId);
 
+    void UploadStreetpasses(const u8 slotNum, const std::string serverRootUrl, const u64 consoleHash);
+
     MBoxList& BoxList();
     const MBoxList& BoxList() const;
 

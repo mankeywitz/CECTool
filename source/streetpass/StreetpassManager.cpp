@@ -4,6 +4,7 @@
 #include "base64.hpp"
 #include <algorithm>
 #include "STDirectory.hpp"
+#include "http.hpp"
 
 extern "C" {
 #include "3ds/services/cecd.h"
@@ -433,6 +434,17 @@ void StreetpassManager::ExportStreetpasses(const u8 slotNum) {
             std::ofstream out(outboxPath + fileName, std::ios::out | std::ios::binary | std::ios::trunc);
             out.write(reinterpret_cast<const char*>(message.data().data()), message.MessageSize());
             out.close();
+        }
+    }
+}
+
+void StreetpassManager::UploadStreetpasses(const u8 slotNum, const std::string serverRootUrl, const u64 consoleHash) {
+    const std::string boxName = BoxList().BoxNames()[slotNum];
+    std::shared_ptr<Streetpass::MBox> mbox = OpenBox(slotNum);
+    if (mbox) {
+        for (auto message : mbox->Outbox().Messages()) {
+            std::string fileName = base64_encode(reinterpret_cast<const char*>(message.MessageId().data), sizeof(CecMessageId));
+            uploadMessageFromData(serverRootUrl, boxName, fileName, message.data(), consoleHash);
         }
     }
 }

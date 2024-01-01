@@ -21,7 +21,7 @@ int __stacksize__ = 64 * 1024;
 
 const int HTTP_BUFFER_SIZE = 4 * 1024 * 1024;
 const std::string SERVER_VERSION = "0.1.0";
-const std::string SERVER_ROOT_URL = "http://192.168.50.244:8000/";
+const std::string SERVER_ROOT_URL = "http://192.168.50.153:8000/";
 const u32 APP_ID_SALT = 0xD00D;
 
 void cecToolDirectoryCheck(void) {
@@ -96,7 +96,7 @@ int main(void) {
             sm->ListBoxes();
             printf("\n\nMain Menu\n\n");
 
-            printf("[X] Export and Upload\n");
+            printf("[X] Upload\n");
             printf("[Y] Import\n");
             printf("[R] Test Server\n");
 
@@ -111,8 +111,7 @@ int main(void) {
         u32 down = hidKeysDown();
 
         if (down & KEY_X) {
-            exportAllStreetpasses(screens, *sm);
-            uploadAllMessages(SERVER_ROOT_URL, hash, *sm);
+            uploadAllStreetpasses(screens, *sm, SERVER_ROOT_URL, hash);
             waitForInput();
             showMenu = true;
         } else if (down & KEY_Y) {

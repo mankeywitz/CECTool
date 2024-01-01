@@ -182,25 +182,33 @@ Result downloadMessage(const std::string rootUrl, const std::string titleId, con
 }
 
 Result uploadMessage(const std::string rootUrl, const std::string titleId, const std::string fileName, const u64 consoleHash) {
-    char hash_str[16];
-    snprintf(hash_str, 16, "%llx", consoleHash);
-    const std::string url = rootUrl + titleId + "/upload/" + fileName;
     const std::string uploadFilePath = "/3ds/CECTool/export/streetpasses/" + titleId + "/outbox/" + fileName;
     std::ifstream uploadFile(uploadFilePath, std::ios::in | std::ios::binary);
     Result ret = 0;
-    httpcContext context;
-    u32 statuscode = 0;
 
     uploadFile.seekg(0, uploadFile.end);
     int fSize = uploadFile.tellg();
     uploadFile.seekg(0, uploadFile.beg);
 
-    char * uploadBuffer = new char [fSize];
+    std::vector<u8> uploadBuffer(fSize);
 
-    uploadFile.read(uploadBuffer, fSize);
+    uploadFile.read((char *)uploadBuffer.data(), fSize);
     uploadFile.close();
 
     printf("Done reading file\n");
+    
+    ret = uploadMessageFromData(rootUrl, titleId, fileName, uploadBuffer, consoleHash);
+
+    return ret;
+}
+
+Result uploadMessageFromData(const std::string rootUrl, const std::string titleId, const std::string fileName, const std::vector<u8> fileData, const u64 consoleHash) {
+    char hash_str[16];
+    snprintf(hash_str, 16, "%llx", consoleHash);
+    const std::string url = rootUrl + titleId + "/upload/" + fileName;
+    Result ret = 0;
+    httpcContext context;
+    u32 statuscode = 0;
 
     printf("Pinging HTTP Server\n");
     printf("%s\n", url.c_str());
@@ -241,7 +249,7 @@ Result uploadMessage(const std::string rootUrl, const std::string titleId, const
         return ret;
     }
 
-    ret = httpcAddPostDataRaw(&context, (const u32*)uploadBuffer, fSize);
+    ret = httpcAddPostDataRaw(&context, (const u32*)fileData.data(), fileData.size());
     if(R_FAILED(ret)) {
         printf("Adding post data failed %lX\n", ret);
         return ret;
@@ -267,8 +275,6 @@ Result uploadMessage(const std::string rootUrl, const std::string titleId, const
     httpcCloseContext(&context);
 
     printf("Upload completed.\n");
-
-    delete[] uploadBuffer;
 
     return ret;
 }
