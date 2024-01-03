@@ -97,11 +97,11 @@ int main(void) {
             printf("\n\nMain Menu\n\n");
 
             printf("[X] Upload\n");
-            printf("[Y] Import\n");
+            printf("[Y] Download\n");
             printf("[R] Test Server\n");
 
             printf("\nPress START to exit\n");
-            printf("Console Specific Hash is 0x%llx", hash);
+            printf("Console Specific Hash is 0x%llx\n", hash);
             showMenu = false;
         }
         
@@ -115,21 +115,21 @@ int main(void) {
             waitForInput();
             showMenu = true;
         } else if (down & KEY_Y) {
-            importMenu(screens, *sm);
+            importMenu(screens, *sm, SERVER_ROOT_URL, hash);
             waitForInput();
             showMenu = true;
         } else if (down & KEY_R) {
             verifyServer(SERVER_ROOT_URL, SERVER_VERSION);
-            downloadMessage(SERVER_ROOT_URL, "00020800", hash);
+            //ret = downloadMessage(SERVER_ROOT_URL, "00020800", hash);
+            //printf("Return code is %li\n", ret);
             waitForInput();
 
-            //uploadMessage(SERVER_ROOT_URL, "00020800", hash);
-            waitForInput();
             showMenu = true;
         } else if (down & KEY_START) {
             break;
         }
     }
+    printf("Exiting...\n");
     shutdown();
     return 0;
 }

@@ -16,7 +16,7 @@ public:
     ~StreetpassManager();
 
     Result HexDump(const std::vector<u8>& buffer) const;
-    Result ListBoxes() const;
+    Result ListBoxes(const s8 selectedSlotNum = -1) const;
 
     std::shared_ptr<MBox> OpenBox(const u8 slotNum) const;
 

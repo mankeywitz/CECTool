@@ -89,23 +89,18 @@ Result verifyServer(const std::string rootUrl, const std::string expectedVersion
     return ret;
 }
 
-Result downloadMessage(const std::string rootUrl, const std::string titleId, const u64 consoleHash) {
+Result downloadMessage(const std::string rootUrl, const std::string titleId, const u64 consoleHash, std::vector<u8>& outData) {
     const u32 BUFSIZE = 0x100000;
     const std::string url = rootUrl + titleId + "/download";
-    const std::string downloadDir = "/3ds/CECTool/import/streetpasses/" + titleId;
     Result ret = 0;
     httpcContext context;
     u32 statuscode = 0;
-    u8* buffer = (u8*)malloc(BUFSIZE);
+    std::vector<u8> buffer(BUFSIZE);
     u32 returnedSize = 0;
     char hash_str[16];
     snprintf(hash_str, 16, "%llx", consoleHash);
 
-
-    printf("Pinging HTTP Server\n");
-    printf("%s\n", url.c_str());
-    memset(buffer, 0, BUFSIZE);
-    mkdir(downloadDir.c_str(), 777);
+    memset(buffer.data(), 0, BUFSIZE);
 
     ret = httpcOpenContext(&context, HTTPC_METHOD_GET, url.c_str(), 0);
     if(R_FAILED(ret)) {
@@ -157,9 +152,13 @@ Result downloadMessage(const std::string rootUrl, const std::string titleId, con
         return ret;
     }
 
-    printf("Status Code is %lu\n", statuscode);
+    if(statuscode != 200) {
+        printf("Server returned a failure (%lu)\n", statuscode);
+        httpcCloseContext(&context);
+        return MAKERESULT(RL_TEMPORARY, RS_INTERNAL, RM_HTTP, RD_NOT_FOUND);
+    }
 
-    ret = httpcDownloadData(&context, buffer, BUFSIZE, &returnedSize);
+    ret = httpcDownloadData(&context, buffer.data(), BUFSIZE, &returnedSize);
     if(R_FAILED(ret)) {
         printf("Size %lu", returnedSize);
         printf("Getting downloaded data failed %lX\n", ret);
@@ -168,15 +167,11 @@ Result downloadMessage(const std::string rootUrl, const std::string titleId, con
 
     httpcCloseContext(&context);
 
-    printf("Download size is %lu", returnedSize);
+    printf("Download size is %lu\n", returnedSize);
 
-    printf("Saving file...\n");
-    std::ofstream out(downloadDir + "/download.bin", std::ios::out | std::ios::binary);
-    out.write(reinterpret_cast<const char*>(buffer), returnedSize);
-    out.close();
+    outData.resize(returnedSize);
 
-    printf("File saved.\n");
-    free(buffer);
+    memcpy(outData.data(), buffer.data(), returnedSize);
 
     return ret;
 }

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "STDirectory.hpp"
 #include "http.hpp"
+#include "util.hpp"
 
 extern "C" {
 #include "3ds/services/cecd.h"
@@ -31,15 +32,22 @@ Result StreetpassManager::HexDump(const std::vector<u8>& buffer) const {
     return 0;
 }
 
-Result StreetpassManager::ListBoxes() const {
+Result StreetpassManager::ListBoxes(const s8 selectedSlotNum) const {
     const std::vector<std::string> boxes = mboxList->BoxNames();
 
     for (u8 slotNum = 0; slotNum < boxes.size(); slotNum++) {
+        if(slotNum == selectedSlotNum) {
+            SetColor(Color::fgCyan);
+        } else {
+            SetColor(Color::fgWhite);
+        }
         printf("[%x] %s  ", slotNum, boxes[slotNum].c_str());
         if (slotNum % 3 == 2) {
             printf("\n");
         }
     }
+
+    SetColor(Color::fgWhite);
 
     return 0;
 }
