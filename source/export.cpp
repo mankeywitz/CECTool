@@ -114,3 +114,12 @@ void exportAllStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm) 
     }
     printf("All streetpasses exported.\n");
 }
+
+void uploadAllStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm, const std::string serverRootUrl, const u64 consoleHash) {
+    consoleSelect(&screens.bottom);
+    printf("Uploading all streetpasses...\n");
+    for (u8 slotNum = 0; slotNum < sm.BoxList().MaxNumberOfSlots(); slotNum++) {
+        sm.UploadStreetpasses(slotNum, serverRootUrl, consoleHash);
+    }
+    printf("All streetpasses exported.\n");
+}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <memory>
 
 #include <3ds/types.h>
@@ -15,7 +16,7 @@ public:
     ~StreetpassManager();
 
     Result HexDump(const std::vector<u8>& buffer) const;
-    Result ListBoxes() const;
+    Result ListBoxes(const s8 selectedSlotNum = -1) const;
 
     std::shared_ptr<MBox> OpenBox(const u8 slotNum) const;
 
@@ -26,6 +27,8 @@ public:
     void ExportStreetpasses(const u8 slotNum);
     Result ImportBox(const u32 boxId);
     void ImportStreetpasses(const u32 boxId);
+
+    void UploadStreetpasses(const u8 slotNum, const std::string serverRootUrl, const u64 consoleHash);
 
     MBoxList& BoxList();
     const MBoxList& BoxList() const;

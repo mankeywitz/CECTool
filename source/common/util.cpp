@@ -21,6 +21,7 @@ void SetColor(Color fgColor, Color bgColor) {
 }
 
 void waitForInput(void) {
+    hidScanInput();
     while (aptMainLoop() && !hidKeysDown()) hidScanInput();
     hidScanInput();
 }

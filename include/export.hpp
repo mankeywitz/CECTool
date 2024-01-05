@@ -12,3 +12,5 @@ void exportBox(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slo
 
 void exportStreetpassMessage(Screens& screens, Streetpass::StreetpassManager& sm, const u8 slotNum);
 void exportAllStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm);
+
+void uploadAllStreetpasses(Screens& screens, Streetpass::StreetpassManager& sm, const std::string serverRootUrl, const u64 consoleHash);

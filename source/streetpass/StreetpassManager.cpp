@@ -4,6 +4,8 @@
 #include "base64.hpp"
 #include <algorithm>
 #include "STDirectory.hpp"
+#include "http.hpp"
+#include "util.hpp"
 
 extern "C" {
 #include "3ds/services/cecd.h"
@@ -30,15 +32,22 @@ Result StreetpassManager::HexDump(const std::vector<u8>& buffer) const {
     return 0;
 }
 
-Result StreetpassManager::ListBoxes() const {
+Result StreetpassManager::ListBoxes(const s8 selectedSlotNum) const {
     const std::vector<std::string> boxes = mboxList->BoxNames();
 
     for (u8 slotNum = 0; slotNum < boxes.size(); slotNum++) {
+        if(slotNum == selectedSlotNum) {
+            SetColor(Color::fgCyan);
+        } else {
+            SetColor(Color::fgWhite);
+        }
         printf("[%x] %s  ", slotNum, boxes[slotNum].c_str());
         if (slotNum % 3 == 2) {
             printf("\n");
         }
     }
+
+    SetColor(Color::fgWhite);
 
     return 0;
 }
@@ -413,21 +422,37 @@ void StreetpassManager::ExportStreetpasses(const u8 slotNum) {
     const std::string boxName = BoxList().BoxNames()[slotNum];
     std::shared_ptr<Streetpass::MBox> mbox = OpenBox(slotNum);
     if (mbox) {
-        const std::string streetpassExportPath = "/3ds/CECTool/export/streetpasses/" + boxName + "/";
-        mkdir(streetpassExportPath.c_str(), 777);
+        const std::string streetpassExportRootPath = "/3ds/CECTool/export/streetpasses/" + boxName + "/";
+        const std::string inboxPath = streetpassExportRootPath + "inbox/";
+        const std::string outboxPath = streetpassExportRootPath + "outbox/";
+
+        mkdir(streetpassExportRootPath.c_str(), 777);
+        mkdir(inboxPath.c_str(), 777);
+        mkdir(outboxPath.c_str(), 777);
 
         for (auto message : mbox->Inbox().Messages()) {
             std::string fileName = base64_encode(reinterpret_cast<const char*>(message.MessageId().data), sizeof(CecMessageId));
-            std::ofstream out(streetpassExportPath + fileName, std::ios::out | std::ios::binary | std::ios::trunc);
+            std::ofstream out(inboxPath + fileName, std::ios::out | std::ios::binary | std::ios::trunc);
             out.write(reinterpret_cast<const char*>(message.data().data()), message.MessageSize());
             out.close();
         }
 
         for (auto message : mbox->Outbox().Messages()) {
             std::string fileName = base64_encode(reinterpret_cast<const char*>(message.MessageId().data), sizeof(CecMessageId));
-            std::ofstream out(streetpassExportPath + fileName, std::ios::out | std::ios::binary | std::ios::trunc);
+            std::ofstream out(outboxPath + fileName, std::ios::out | std::ios::binary | std::ios::trunc);
             out.write(reinterpret_cast<const char*>(message.data().data()), message.MessageSize());
             out.close();
+        }
+    }
+}
+
+void StreetpassManager::UploadStreetpasses(const u8 slotNum, const std::string serverRootUrl, const u64 consoleHash) {
+    const std::string boxName = BoxList().BoxNames()[slotNum];
+    std::shared_ptr<Streetpass::MBox> mbox = OpenBox(slotNum);
+    if (mbox) {
+        for (auto message : mbox->Outbox().Messages()) {
+            std::string fileName = base64_encode(reinterpret_cast<const char*>(message.MessageId().data), sizeof(CecMessageId));
+            uploadMessageFromData(serverRootUrl, boxName, fileName, message.data(), consoleHash);
         }
     }
 }

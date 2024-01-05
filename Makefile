@@ -31,9 +31,9 @@ include $(DEVKITARM)/3ds_rules
 #     - icon.png
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
-APP_TITLE	:=  CECTool
+APP_TITLE	:=  Wonderpass
 APP_DESCRIPTION := A Streetpass Management Tool
-APP_AUTHOR	:=  NarcolepticK
+APP_AUTHOR	:=  Lunatec - Based on work by NarcolepticK
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source

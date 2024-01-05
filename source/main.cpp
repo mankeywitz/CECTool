@@ -2,6 +2,7 @@
 #include <memory>
 #include <sys/stat.h>
 
+#include "common/http.hpp"
 #include "common/util.hpp"
 #include "create.hpp"
 #include "delete.hpp"
@@ -17,6 +18,11 @@ extern "C" {
 using Streetpass::StreetpassManager;
 
 int __stacksize__ = 64 * 1024;
+
+const int HTTP_BUFFER_SIZE = 4 * 1024 * 1024;
+const std::string SERVER_VERSION = "0.1.0";
+const std::string SERVER_ROOT_URL = "http://192.168.50.153:8000/";
+const u32 APP_ID_SALT = 0xD00D;
 
 void cecToolDirectoryCheck(void) {
     mkdir("/3ds/CECTool", 777);
@@ -44,12 +50,27 @@ Result init(Screens& screens) {
     ret = cecduInit();
     if (R_FAILED(ret)) {
         printf("Cecdu Init Failed: %lX\n", ret);
+        return ret;
+    }
+
+    ret = httpcInit(HTTP_BUFFER_SIZE);
+    if (R_FAILED(ret)) {
+        printf("HTTP Init Failed: %lX\n", ret);
+        return ret;
+    }
+
+    ret = cfguInit();
+    if (R_FAILED(ret)) {
+        printf("CFGU Init Failed: %lX\n", ret);
+        return ret;
     }
     return ret;
 }
 
 void shutdown(void) {
+    httpcExit();
     cecduExit();
+    cfguExit();
 }
 
 int main(void) {
@@ -61,6 +82,10 @@ int main(void) {
     }
     cecToolDirectoryCheck();
 
+    u64 hash = 0;
+    ret = CFGU_GenHashConsoleUnique(APP_ID_SALT, &hash);
+
+
     std::unique_ptr<StreetpassManager> sm = std::make_unique<StreetpassManager>();
     // Main menu loop; Start to exit
     bool showMenu = true;
@@ -71,13 +96,12 @@ int main(void) {
             sm->ListBoxes();
             printf("\n\nMain Menu\n\n");
 
-            printf("[A] Create\n");
-            printf("[B] Delete\n");
-            printf("[X] Export\n");
-            printf("[Y] Import\n");
-            printf("[L] Open\n");
+            printf("[X] Upload\n");
+            printf("[Y] Download\n");
+            printf("[R] Test Server\n");
 
             printf("\nPress START to exit\n");
+            printf("Console Specific Hash is 0x%llx\n", hash);
             showMenu = false;
         }
         
@@ -86,30 +110,26 @@ int main(void) {
         hidScanInput();
         u32 down = hidKeysDown();
 
-        if (down & KEY_A) {
-            createMenu(screens, *sm);
-            waitForInput();
-            showMenu = true;
-        } else if (down & KEY_B) {
-            deleteMenu(screens, *sm);
-            waitForInput();
-            showMenu = true;
-        } else if (down & KEY_X) {
-            exportMenu(screens, *sm);
+        if (down & KEY_X) {
+            uploadAllStreetpasses(screens, *sm, SERVER_ROOT_URL, hash);
             waitForInput();
             showMenu = true;
         } else if (down & KEY_Y) {
-            importMenu(screens, *sm);
+            importMenu(screens, *sm, SERVER_ROOT_URL, hash);
             waitForInput();
             showMenu = true;
-        } else if (down & KEY_L) {
-            openMenu(screens, *sm);
+        } else if (down & KEY_R) {
+            verifyServer(SERVER_ROOT_URL, SERVER_VERSION);
+            //ret = downloadMessage(SERVER_ROOT_URL, "00020800", hash);
+            //printf("Return code is %li\n", ret);
             waitForInput();
+
             showMenu = true;
         } else if (down & KEY_START) {
             break;
         }
     }
+    printf("Exiting...\n");
     shutdown();
     return 0;
 }
