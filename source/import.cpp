@@ -16,7 +16,8 @@ void displayImportMenu(Screens& screens, Streetpass::StreetpassManager& sm) {
     ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes();
-    printf("\n\nDownload Menu\n\n");
+    consoleSelect(&screens.bottom);
+    printf("Download Menu\n\n");
     printf("[A] Download Streetpass Messages\n\n");
     printf("Press START for Main Menu\n\n");
 }
@@ -36,7 +37,8 @@ void displayImportStreetpassBoxSelection(Screens& screens, Streetpass::Streetpas
     ClearScreens(screens);
     printf("CECTool\n\n");
     sm.ListBoxes(slotNum);
-    printf("\n\nImport Menu\n\n");
+    consoleSelect(&screens.bottom);
+    printf("Download Menu\n\n");
     printf("[A] Select a box to download streetpasses to\n\n");
     printf("Press START for Main Menu\n\n");
     printf("Slot Number: [%x]\n", slotNum);
@@ -57,17 +59,11 @@ void displayImportStreetpassSelection(Screens& screens, Streetpass::StreetpassMa
 void importMenu(Screens& screens, Streetpass::StreetpassManager& sm, const std::string serverRootUrl, const u64 consoleHash) {
     consoleSelect(&screens.bottom);
     u8 slotNum = 0;
-    displayImportMenu(screens, sm);
     while (aptMainLoop()) {
         gspWaitForVBlank();
         gfxSwapBuffers();
         hidScanInput();
         u32 down = hidKeysDown();
-
-        std::vector<std::string> currentBoxNames = sm.BoxList().BoxNames();
-        std::string importPath = "/3ds/CECTool/import/streetpasses/" + currentBoxNames[slotNum] + "/";
-        std::unique_ptr<STDirectory> importDirectory =
-            std::make_unique<STDirectory>(importPath);
 
         displayImportStreetpassBoxSelection(screens, sm, slotNum);
         while (aptMainLoop()) {
@@ -79,17 +75,17 @@ void importMenu(Screens& screens, Streetpass::StreetpassManager& sm, const std::
             if (down & KEY_A) {
                 downloadStreetpass(screens, sm, slotNum, serverRootUrl, consoleHash);
                 break;
-            } else if (down & KEY_DOWN) {
+            } else if (down & KEY_UP) {
                 if (slotNum > 0) {
                     slotNum--;
                     displayImportStreetpassBoxSelection(screens, sm, slotNum);
                 }
-            } else if (down & KEY_UP) {
+            } else if (down & KEY_DOWN) {
                 if (slotNum < sm.BoxList().MaxNumberOfSlots() - 1) {
                     slotNum++;
                     displayImportStreetpassBoxSelection(screens, sm, slotNum);
                 }
-            } else if (down & KEY_START) {
+            } else if (down & KEY_START || down & KEY_B) {
                 break;
             }
         }

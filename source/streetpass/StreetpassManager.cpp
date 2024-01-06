@@ -41,10 +41,19 @@ Result StreetpassManager::ListBoxes(const s8 selectedSlotNum) const {
         } else {
             SetColor(Color::fgWhite);
         }
-        printf("[%x] %s  ", slotNum, boxes[slotNum].c_str());
-        if (slotNum % 3 == 2) {
-            printf("\n");
+
+        const std::shared_ptr<MBox> box = OpenBox(slotNum);
+        if(box != nullptr) {
+            const std::vector<u8> title = box->BoxTitle().data();
+            const std::string titleString = convertU8ArrayToString(title);
+
+            printf("[%x] %s %s", slotNum, boxes[slotNum].c_str(), titleString.c_str());
+        } else {
+            printf("[%x] %s ", slotNum, boxes[slotNum].c_str());
         }
+        
+        
+        printf("\n");
     }
 
     SetColor(Color::fgWhite);

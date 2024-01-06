@@ -21,7 +21,7 @@ int __stacksize__ = 64 * 1024;
 
 const int HTTP_BUFFER_SIZE = 4 * 1024 * 1024;
 const std::string SERVER_VERSION = "0.1.0";
-const std::string SERVER_ROOT_URL = "http://192.168.50.153:8000/";
+const std::string SERVER_ROOT_URL = "http://wonderpass.lunatec.xyz:8000/";
 const u32 APP_ID_SALT = 0xD00D;
 
 void cecToolDirectoryCheck(void) {
@@ -94,14 +94,15 @@ int main(void) {
             ClearScreens(screens);
             printf("CECTool\n\n");
             sm->ListBoxes();
-            printf("\n\nMain Menu\n\n");
+            consoleSelect(&screens.bottom);
+            printf("Main Menu\n\n");
 
             printf("[X] Upload\n");
             printf("[Y] Download\n");
             printf("[R] Test Server\n");
 
-            printf("\nPress START to exit\n");
-            printf("Console Specific Hash is 0x%llx\n", hash);
+            printf("\nPress START to exit\n\n");
+            printf("Console Specific Hash is:\n0x%llx\n", hash);
             showMenu = false;
         }
         

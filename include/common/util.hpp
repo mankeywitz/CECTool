@@ -1,6 +1,8 @@
 #pragma once
 
 #include <3ds.h>
+#include <string>
+#include <vector>
 
 constexpr int fgColorOffset = 30;
 constexpr int bgColorOffset = 40;
@@ -39,3 +41,5 @@ void SetColor(Color fgColor);
 void SetColor(Color fgColor, Color bgColor);
 
 void waitForInput(void);
+
+std::string convertU8ArrayToString(const std::vector<u8>& bytes);
